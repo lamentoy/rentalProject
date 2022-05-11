@@ -161,7 +161,7 @@ export default {
     padding:0 20px;
     width:calc(100% - 40px);
     margin:auto;
-    height:80%;
+    height:60%;
     position: fixed;
     overflow: scroll;
     .el-icon-info{

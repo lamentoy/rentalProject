@@ -1,15 +1,14 @@
 <template>
   <div class="MainPage">
     <el-header >
-      <span>sign up</span><span>log in</span>
     </el-header>
    <div>
      <router-view></router-view>
    </div>
-    <el-footer>
+    <div class="foot">
     <div @click="jumptoSearch">Search</div>
     <div @click="jumptoFav">Favourite List</div>
-    </el-footer>
+    </div>
   </div>
 </template>
 
@@ -46,9 +45,11 @@ export default {
 
 <style lang='less' scoped>
 .MainPage{
+    width:100%;
+    height:100%;
   .el-header{
-    background-color: orange;
-  // background: linear-gradient(to right, #f2709c, #ff9472);
+   // background-color: rgb(10, 56, 100);
+   background: linear-gradient(to right, #f2709c, #ff9472);
     text-align: right;
     width:100%;
     height:20%;
@@ -60,10 +61,10 @@ export default {
   }
  
  
-  .el-footer{
-    background-color:orange;
+  .foot{
+    background:url("../assets/neighbourhood.jpeg");
     width:100%;
-    height:20%;
+    height:30%;
     text-align: right;
     position:fixed;
     bottom:0;

@@ -55,13 +55,13 @@ export default {
      margin:auto;
      height:800px;
      width:100%;
-       background-size: cover; 
+       background-size:cover; 
       background-repeat: no-repeat; 
-      background: url("../assets/neighbourhood.jpeg");
+      background: url("../assets/n1.jpg");
 
     .box{
-      box-shadow: 0 0px 20px white;
-      border:1px solid black;
+      box-shadow: 0 0px 20px grey;
+      border:1px solid white;
       width:600px;
       margin: auto;
       margin-top:20px;
@@ -71,13 +71,13 @@ export default {
       width: 100%;
       height:100px;
       line-height: 100px;
-      color:white;
+      color:black;
       font-family: 'Snell Roundhand', cursive;
       text-align: center;
       font-size: 100px;
     }
     .login{
-      color:white;
+      color:black;
        margin:auto;
         width:200px;
         margin-top:50px;
@@ -96,7 +96,7 @@ export default {
       align-items: center;
       justify-content: space-between;
       & > div{
-      color:white;
+      color:black;
       font-size:20px;
       font-weight: bold;
       
