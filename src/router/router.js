@@ -4,9 +4,17 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path:"/",
+        name:"homePage",
+        component: () =>
+            import ('../views/homePage.vue'),
+
+
+    },
  
     {
-        path: "/",
+        path: "/mainPage",
         name: 'mainPage',
         component: () =>
             import ('../components/MainPage.vue'),
