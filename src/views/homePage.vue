@@ -74,7 +74,7 @@ export default {
       color:black;
       font-family: 'Snell Roundhand', cursive;
       text-align: center;
-      font-size: 100px;
+      font-size: 90px;
     }
     .login{
       color:black;

@@ -30,7 +30,7 @@
      </div>
       
      </div>
-     <div class="search"><el-button @click="jumptoSearch">Search Again</el-button></div>
+    
      <!-- <div id="map" v-if="mapShown"></div> -->
      
   </div>
@@ -302,7 +302,7 @@ export default {
     padding:0 20px;
     width:calc(100% - 40px);
     margin:auto;
-    height:80%;
+    height:50%;
     position: fixed;
     overflow: scroll;
     #map{

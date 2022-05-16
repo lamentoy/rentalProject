@@ -27,19 +27,40 @@ const routes = [
                     import ('../views/firstPage.vue')
             },
             {
-                path: '/showResult',
-                name: "secondPage",
-                component: () =>
-                    import ('../views/secondPage.vue')
-
-            },
-            {
                 path: '/favList',
                 name: "favList",
                 component: () =>
                     import ('../views/favList.vue')
 
-            }
+            },
+            {
+                path:'/community',
+                name:"community",
+                component: () =>
+                    import ('../views/community.vue')
+
+            },
+            {
+                path:'/review',
+                name:"review",
+                component: () =>
+                    import ('../views/review.vue')
+
+            },
+            {
+                path:'/password',
+                name:"password",
+                component: () =>
+                    import ('../views/password.vue')
+
+            },
+            {
+                path:'/profile',
+                name:"profile",
+                component: () =>
+                    import ('../views/profile.vue')
+
+            },
         ]
     }]
 
