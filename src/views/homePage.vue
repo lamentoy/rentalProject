@@ -3,8 +3,11 @@
     <!-- <img src="../assets/neighbourhood.jpeg"/> -->
   <div class="sign">
    <div class="bigTitle">Rental Rise.</div>
+      <img src="../assets/logo2.png"/>
    <div class="box">
-    <div class="login">Log in</div>
+   
+    <div class="login">{{active==1?"Log in":"Sign up"}}</div>
+   
   <div class="sigin">
     <div>Account name:</div>
    <div class="signinbox">
@@ -19,8 +22,13 @@
    </div>
    <div class="sigin">
   
-   <el-button @click="jumptoMain">Log in</el-button>
+   <el-button v-if="active==1" @click="jumptoMain">Log in</el-button>
+   <el-button v-if="active==2" >Sign up</el-button>
    </div>
+     <div class="hint sigin" style="text-decoration-line:underline;" @click="active=2" v-show="active==1"> <span>Need an account?</span></div>
+       <div class="hint sigin" style="text-decoration-line:underline" @click="active=2" v-show="active==1"> <span>Sign  up</span></div>
+       <div class="hint sigin" style="text-decoration-line:underline" @click="active=1" v-show="active==2"> <span>Already have an account?</span></div>
+       <div class="hint sigin" style="text-decoration-line:underline" @click="active=1" v-show="active==2"> <span>Log  in</span></div>
    </div>
   </div>
 
@@ -34,6 +42,7 @@ export default {
       return{
         password:"",
         accName:"",
+        active:1
       }
     },
     methods:{
@@ -66,7 +75,13 @@ export default {
       margin: auto;
       margin-top:20px;
       padding-bottom: 60px;
+     
     }
+     img{
+        height: 150px;
+        width:300px;
+        margin-left:calc(50% - 150px);
+      }
     .bigTitle{
       width: 100%;
       height:100px;
@@ -74,16 +89,21 @@ export default {
       color:black;
       font-family: 'Snell Roundhand', cursive;
       text-align: center;
-      font-size: 90px;
+      font-size: 80px;
+      // img{
+      //   height: 80px;
+      //   width:200px;
+      //   margin-top:10px;
+      // }
     }
     .login{
       color:black;
        margin:auto;
         width:200px;
-        margin-top:50px;
+        margin-top:20px;
         font-family: 'Snell Roundhand', cursive;
       text-align: center;
-      font-size: 60px;
+      font-size: 40px;
         font-weight: bold;
 
     }
@@ -91,13 +111,18 @@ export default {
       width:400px;
  
       margin:auto;
-      margin-top:100px;
+      margin-top:30px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      &.hint{
+        text-align: center;
+        span{cursor: pointer;
+        margin:auto;}
+      }
       & > div{
       color:black;
-      font-size:20px;
+      font-size:18px;
       font-weight: bold;
       
       }

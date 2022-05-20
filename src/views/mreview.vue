@@ -1,0 +1,333 @@
+<template>
+  <div class="communityReview">
+      <div class="profileCard">
+          <div><img :src="src"/></div>
+          <div class="profileBody">
+              <div class="profileTitle">{{title}}</div>
+              <div class="writeReview" @click="dialogVisible=true"><i class="el-icon-star-off"/><i class="el-icon-edit-outline"/></div>
+              <div class="profileRating">
+              <div>Noisy Level:
+                <el-rate
+                disabled
+                show-score
+                v-model="value1"
+                :icon-classes="iconClasses1"
+                disabled-void-color="rgb(198, 209, 222)"
+                score-template="  Level {value}"
+                disabled-void-icon-class="icon-rate-face-off"
+                :colors="['#FF9900', '#F7BA2A', '#99A9BF']">
+                </el-rate>
+             </div>
+              <div>Safety Level:
+                <el-rate
+                v-model="value2"
+                disabled
+                show-score
+                :icon-classes="iconClasses"
+                score-template="  Level {value}"
+                disabled-void-color="rgb(198, 209, 222)"
+                disabled-void-icon-class="icon-rate-face-off"
+                :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                </el-rate>
+              </div>
+              <div>Environment:
+                <el-rate
+                v-model="value3"
+                disabled
+                :icon-classes="iconClasses"
+                show-score
+                score-template="  Level {value}"
+                disabled-void-color="rgb(198, 209, 222)"
+                disabled-void-icon-class="icon-rate-face-off"
+                :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                </el-rate>
+              </div>
+               
+              </div>
+              <div class="profileFooter"><i class="el-icon-info"/>Average rating (10 people rated)</div>
+          </div>
+      </div>
+      <div class="Comments">
+          <div class="comment">
+          <div class="peoples">
+          <el-avatar src="https://img.syt5.com/2021/0519/20210519083837846.jpg.420.420.jpg"></el-avatar>
+          <span>Josh</span>
+          </div>
+          <div>The place is nice but a little bit noisy at night.</div>
+          
+          </div>
+          <div class="comment">
+          <div class="peoples">
+          <el-avatar src="https://img.syt5.com/2021/0127/20210127085935853.jpg.420.420.jpg"></el-avatar>
+          <span>Kate</span>
+          </div>
+          <div>I lived near this place and I don't like it. Prepare moving to other house.</div>
+          </div>
+          <div class="comment">
+              <div class="peoples">
+          <el-avatar src="https://img.syt5.com/2021/0127/20210127085207772.png.420.420.jpg"></el-avatar>
+          <span>Elisa</span>
+          </div>
+          <div>Easy to buy stuff's here!!!</div>
+          </div>
+          <div class="comment">
+          <div class="peoples">
+           <el-avatar src="https://img.syt5.com/2021/0826/20210826091718477.jpg.420.420.jpg"></el-avatar>
+          <span>Lanbert</span>
+          </div>
+          <div>A lot of people here at night, feeling safe when i went home late.</div>
+          </div>
+          <div  v-if="comments.length>0">
+          <div class="comment" v-for="(c,index) in comments" :key="index+c">
+            <div class="peoples">
+            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+             <span>Lily</span>
+          </div>
+    
+          <div>{{c}}</div>
+          </div>
+          </div>
+
+
+
+
+      </div>
+      <el-dialog
+      title="Rating and Comments"
+      :visible.sync="dialogVisible"
+      :modal="false"
+      width="80vw"
+      >
+      <div class="profileRating">
+              <div>Noisy Level 
+                <el-rate
+                v-model="value4"
+                show-score
+                :icon-classes="iconClasses1"
+                score-template="  Level {value}"
+                text-color="#ff9900"
+                void-icon-class="icon-rate-face-off"
+                :colors="['#FF9900', '#F7BA2A', '#99A9BF']">
+                </el-rate>
+             </div>
+              <div>Safety Level
+                <el-rate
+                v-model="value5"
+                :icon-classes="iconClasses"
+                text-color="#ff9900"
+                score-template="  Level {value}"
+                show-score
+                void-icon-class="icon-rate-face-off"
+                :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                </el-rate>
+              </div>
+              <div>Environment
+                <el-rate
+                v-model="value6"
+                :icon-classes="iconClasses"
+                score-template="  Level {value}"
+                text-color="#ff9900"
+                show-score
+                void-icon-class="icon-rate-face-off"
+                :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                </el-rate>
+              </div>
+              <div>Comments:
+                  <el-input type="textarea" v-model="comment"></el-input>
+              </div>
+              <div class="buttons">
+              <el-button @click="submitComments">Submit</el-button>
+              <el-button @click="cancelComments">Cancel</el-button>
+              </div>
+        </div>
+
+      </el-dialog>
+  </div>
+</template>
+
+<script>
+import '../assets/fonts/style.css'
+export default {
+    name:"reviewPage",
+    mounted(){
+        this.src=this.$route.params.src
+        this.title=this.$route.params.title
+        console.log(this.src)
+        console.log(this.title)
+    },
+    data(){
+        return{
+            src:"",
+            title:"",
+            value1: 4,
+            value2: 4,
+            value3: 3,
+            value4: 0,
+            value5: 0,
+            value6: 0,
+            comment:'',
+            comments:[],
+            iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'],
+            iconClasses1: ['icon-rate-face-3', 'icon-rate-face-2', 'icon-rate-face-1'],
+            dialogVisible:false
+        }
+    },
+    methods:{
+        submitComments(){
+            if(this.comment!=""){
+            this.comments.push(this.comment)
+            this.comment=""
+            this.value4= 0
+            this.value5= 0
+            this.value6= 0
+            this.dialogVisible=false
+            }
+            else{
+                this.$message.error('Please enter a valid comment')
+            }
+        },
+        cancelComments(){
+            this.dialogVisible=false
+            this.comment=""
+            this.value4= 0
+            this.value5= 0
+            this.value6= 0
+
+        }
+    }
+
+}
+</script>
+
+<style lang="less" scoped>
+.communityReview {
+    margin-top:2vh;
+    height: 72vh;
+    width:100vw;
+    background: white;
+    position: fixed;
+    overflow: scroll;
+    .profileCard{
+        box-sizing: border-box;
+        width: 90vw;
+        height: 530px;
+        border: 1px solid #a1c4fd;
+        margin-left:5vw;
+        margin-top:2vh;
+        box-shadow: 0 0 8px #89b6ff;
+
+        img{
+            width:90vw;
+            height: 300px;
+        }
+        .profileBody{
+            width:90vw;
+             overflow: scroll;
+            .profileTitle{
+                font-family: 'Courier New', Courier, monospace;
+                font-size:25px;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .profileFooter{
+                 margin-bottom: 20px;
+                 margin-right:20px;
+                text-align: right;
+                i{
+                    color:orange;
+                }
+                font-size: 12px;
+                
+                //align-items: center;
+
+            
+            }
+            .writeReview{
+                 margin-bottom: 20px;
+                 margin-right:20px;
+                 margin-left:calc(100% - 60px);
+                 cursor: pointer;
+            }
+            .profileRating{
+                 padding-left: 30px;
+                 padding-right:30px;
+                div{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                }
+                .el-rate{
+                    margin-left:20px;
+                    
+                }
+            }
+        }
+    }
+        .Comments{
+            height:520px;
+            width:90vw;
+            margin-left:5vw;
+            border: 1px solid #a1c4fd;
+            box-shadow: 0 0 8px #89b6ff;
+             overflow: scroll;
+           
+            margin-top:2vh;
+            padding: 30px;
+            box-sizing: border-box;
+            .comment{
+                display: flex;
+                align-items: center;
+                box-shadow: 0 0 8px #89b6ff;
+                background: #b6d2ff;
+                padding: 20px;
+                margin-bottom:30px;
+                .peoples{
+                    align-items: center;
+                    justify-content: center;
+                    padding: 5px;
+                    display: flex;
+                    flex-direction:column;
+                    .span{
+                        font-weight: bold;
+                    }
+                    // border:1px solid black;
+                    // background: #d9e4f4;
+                   
+                    
+                }
+                div{
+                    
+                    margin-left:20px;
+                }
+
+            }
+
+        }
+        .el-dialog{
+           padding: 20px;
+            text-align: center;
+
+            .buttons{
+                width:100%;
+               
+                .el-button{
+                    background:#a1c4fd;
+                }
+                
+            }
+            .profileRating{
+
+                div{
+                    //display: flex;
+                    margin-bottom: 10px;
+                   
+                }
+                .el-rate{
+                   // margin-left:20px;
+                    
+                }
+            }
+        }
+    }
+
+</style>

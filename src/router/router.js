@@ -62,7 +62,68 @@ const routes = [
 
             },
         ]
-    }]
+    },
+    {
+        path:"/mobile",
+        name:"mobileHomePage",
+        component: () =>
+            import ('../views/mobileHome.vue'),
+
+
+    },
+    {
+        path:"/mobileMain",
+        name:"mobileMainPage",
+        component: () =>
+            import ('../components/mobileMainPage.vue'),
+        redirect: '/mfilltheform',
+        children: [
+            {
+                path: '/mfilltheform',
+                name: "mfirstPage",
+                component: () =>
+                    import ('../views/mfirstPage.vue')
+            },
+            {
+                path: '/mfavList',
+                name: "mfavList",
+                component: () =>
+                    import ('../views/mfavList.vue')
+
+            },
+            {
+                path:'/mcommunity',
+                name:"mcommunity",
+                component: () =>
+                    import ('../views/mcommunity.vue')
+
+            },
+            {
+                path:'/mreview',
+                name:"mreview",
+                component: () =>
+                    import ('../views/mreview.vue')
+
+            },
+            {
+                path:'/mpassword',
+                name:"mpassword",
+                component: () =>
+                    import ('../views/password.vue')
+
+            },
+            {
+                path:'/mprofile',
+                name:"mprofile",
+                component: () =>
+                    import ('../views/profile.vue')
+
+            },
+        ]
+
+
+    },
+]
 
     const router = new VueRouter({
         routes

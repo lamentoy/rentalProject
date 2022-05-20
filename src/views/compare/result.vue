@@ -4,15 +4,15 @@
       <div class="resultbody">
       <div  v-for='(element,index) in results' :key="element[0]">
         <div class="firstLine">
-        <div class="names"><i class="el-icon-location-information"/>{{element[0]}}</div>
+        <div class="names" @click="jumpToReview({urls:require('../../assets/city.jpeg'),title:element[0]})"> <i class="el-icon-location-information"/>{{element[0]}}</div>
         <div class="ratings">
             <el-rate v-model="element[5]" 
                 disabled
                 show-score
                 text-color="#ff9900"
                 score-template="{value} stars"></el-rate>
-                <div class="favIcon" @click="addtoFavorite(element,index)" v-if="!fav[index]" ><img src="../../assets/addFav.png" /></div>
-                <div class="favIcon" @click="removeFromFavorite(element,index)" v-if="fav[index]" ><img src="../../assets/removeFav.png" /></div>
+                <div class="favIcon clickable" @click="addtoFavorite(element,index)" v-if="!fav[index]" ><img src="../../assets/addFav.png" /></div>
+                <div class="favIcon clickable" @click="removeFromFavorite(element,index)" v-if="fav[index]" ><img src="../../assets/removeFav.png" /></div>
         </div>
         </div>
       <div v-if="searchLocations2.length>0" >
@@ -203,6 +203,14 @@ export default {
         console.log(this.results)
 
       },
+      jumpToReview(item){
+            this.$router.push(
+                {
+                    name:'review',
+                    params:{"src":item.urls,"title":item.title}
+                }
+            )
+        },
       checkIfAdded(name){
           var k=false
           console.log(this.favList)
@@ -334,6 +342,9 @@ export default {
                 .names{
                 width:auto;
                 font-size: 18px;
+                text-decoration-line: underline;
+                text-decoration-color:#effaff;
+                cursor:pointer;
                 //border-bottom:2px  solid #7d9cce;
                  display: flex;
                 align-items: center;

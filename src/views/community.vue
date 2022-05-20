@@ -6,7 +6,7 @@
       <img @click="jumpToReview({urls:require('../assets/city.jpeg'),title:googleLocation.shortName})" src="../assets/search.png"/>
       </div>
       </div>
-       <div class="Title">Top 5 Search</div>
+       <div class="Title">Top 5 Favourites</div>
       <div class="topSearch">
          
           <div v-for="item in locations" :key="item.urls">
