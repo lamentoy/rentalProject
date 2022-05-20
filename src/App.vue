@@ -9,8 +9,25 @@
 
 export default {
   name: 'App',
+  mounted(){
+    if(this.isMobile()) {
+    console.log("移动端");
+    this.$router.replace('/mobileMain');
+  }else {
+    console.log("pc端");
+    this.$router.replace('/');
+  }
+  },
   components: {
    
+  },
+  methods:{
+    isMobile(){
+      flag=false
+      let flag=navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+
+       return flag;
+    }
   }
 }
 </script>
