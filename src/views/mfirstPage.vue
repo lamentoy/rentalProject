@@ -89,7 +89,7 @@ export default {
     background: white;
     position: fixed;
     width:100vw;
-    height:73vh;
+    height:60vh;
     overflow: scroll;
     .el-steps{
       width:100vw;

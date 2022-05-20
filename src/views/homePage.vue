@@ -1,20 +1,29 @@
 <template>
   <div class="homePage">
     <!-- <img src="../assets/neighbourhood.jpeg"/> -->
+    <div class="beforeBanner">
+      <img src="../assets/logo2.png"/>
+    
+      
+      </div>
+      <div class="bigTitle">Rental Rise.</div>
     <div class="block">
-    <el-carousel trigger="click" height="500px">
+    <el-carousel trigger="click" height="400px" type="card">
       <el-carousel-item v-for="item in photos" :key="item">
         <img :src="item"/>
       </el-carousel-item>
     </el-carousel>
   </div>
   <div class="sign">
-   <div class="bigTitle">Rental Rise.</div>
-      <img src="../assets/logo2.png"/>
+   <!-- <div class="bigTitle">Rental Rise.</div>
+      <img src="../assets/logo2.png"/> -->
   <div class="middlepart">
-   <div class="Description"><span>Start to fint the most appropriate rental for you today.</span>
-   <div>Rental rise provide a platform for you to compare different neighbourhoods and check people's favourite neighbourhoods.</div></div>
-   <div class="box">
+   <div class="Description"><span>Start to find the most appropriate rental for you today.</span>
+   <div>Rental rise provide a platform for you to compare different neighbourhoods and check people's favourite neighbourhoods.</div>
+   <el-button @click="logActive=2">{{logActive==2?'Start Journey':'Get Started'}}</el-button>
+   </div>
+   
+   <div class="box" v-if="logActive==2">
    
     <div class="login">{{active==1?"Log in":"Sign up"}}</div>
    
@@ -54,7 +63,8 @@ export default {
         password:"",
         accName:"",
         active:1,
-        photos:[require('../assets/n1.jpg'),require('../assets/b1.jpeg'),require('../assets/b3.webp'),require('../assets/b4.jpeg')]
+        photos:[require('../assets/n1.jpg'),require('../assets/b1.jpeg'),require('../assets/b3.webp'),require('../assets/b4.jpeg')],
+        logActive:1
       }
     },
     methods:{
@@ -71,6 +81,30 @@ export default {
 .homePage{
   width:100%;
   height:100%;
+  background:rgb(255, 221, 141) ;
+  .beforeBanner{
+    background:rgb(255, 221, 141);
+
+     img{
+        height: 150px;
+        width:300px;
+        margin-left:calc(50% - 150px);
+      }
+  }
+   .bigTitle{
+      width: 100%;
+      height:100px;
+      line-height: 100px;
+      color:black;
+      font-family: 'Snell Roundhand', cursive;
+      text-align: center;
+      font-size: 80px;
+      // img{
+      //   height: 80px;
+      //   width:200px;
+      //   margin-top:10px;
+      // }
+    }
   .block{
         img {
 
@@ -83,7 +117,7 @@ export default {
   .sign{
      border: 1px solid black;
      margin:auto;
-     height:800px;
+     height:600px;
      width:100%;
       //  background-size:cover; 
       // background-repeat: no-repeat; 
@@ -134,6 +168,7 @@ export default {
     .middlepart{
       display: flex;
        width:100%;
+       margin-top:30px;
       justify-content: space-around;
       .Description{
         //text-align: center;
@@ -141,6 +176,12 @@ export default {
         width:500px;
         height: auto;
         padding: 20px;
+        .el-button{
+          background: rgb(255, 221, 141);
+           width:130px;
+          margin-top:40px;
+          margin-left:165px;
+        }
  
      
         span{

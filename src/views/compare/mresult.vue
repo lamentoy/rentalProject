@@ -4,13 +4,8 @@
       <div class="resultbody">
       <div  v-for='(element,index) in results' :key="element[0]">
         <div class="firstLine">
-        <div class="names" @click="jumpToReview({urls:require('../../assets/city.jpeg'),title:element[0]})"> <i class="el-icon-location-information"/>{{element[0]}}</div>
+        <div class="names"> <i class="el-icon-location-information"/>{{element[0]}}</div>
         <div class="ratings">
-            <el-rate v-model="element[5]" 
-                disabled
-                show-score
-                text-color="#ff9900"
-                score-template="{value} stars"></el-rate>
                 <div class="favIcon clickable" @click="addtoFavorite(element,index)" v-if="!fav[index]" ><img src="../../assets/addFav.png" /></div>
                 <div class="favIcon clickable" @click="removeFromFavorite(element,index)" v-if="fav[index]" ><img src="../../assets/removeFav.png" /></div>
         </div>
@@ -33,6 +28,18 @@
      <div class="smallTitle">Nearby essential facilities</div>
      <div class='eachResult'>
          <div class="mainContent1" v-for='(item) in element[1]' :key="element[0]+item[0]+element[2]"><div><i class="el-icon-school" style="color:darkblue"/>{{item[0]}}:{{item[1].length}}</div></div>
+     </div>
+     <div class="smallTitle">Life convenience rating</div>
+     <div class='eachResult finalone'>
+     <el-rate v-model="element[5]" 
+                disabled
+                show-score
+                text-color="#ff9900"
+                score-template="{value} stars"></el-rate>
+      
+      <div><i class="el-icon-info"/>This rating was calculated by an algorithm involving the essential facilities only. To see others' review please click the button below.</div>
+     
+     <el-button  @click="jumpToReview({urls:require('../../assets/city.jpeg'),title:element[0]})">Review Page</el-button>
      </div>
       
      </div>
@@ -87,9 +94,9 @@ export default {
       searchNearbyLocations(){
           console.log("calculate")
         for(let i =0;i<this.searchLocations.length;i++){
-            if( this.searchLocations[i].viewport.Ab){
-              var lat = this.searchLocations[i].viewport.Ab.h
-              var lng= this.searchLocations[i].viewport.Va.h
+            if( this.searchLocations[i].viewport.yb){
+              var lat = this.searchLocations[i].viewport.yb.h
+              var lng= this.searchLocations[i].viewport.Ta.h
             }else{
                  lat = this.searchLocations[i].viewport.south
                lng= this.searchLocations[i].viewport.west
@@ -206,7 +213,7 @@ export default {
       jumpToReview(item){
             this.$router.push(
                 {
-                    name:'review',
+                    name:'mreview',
                     params:{"src":item.urls,"title":item.title}
                 }
             )
@@ -341,8 +348,8 @@ export default {
                 .names{
                 width:auto;
                 font-size: 18px;
-                text-decoration-line: underline;
-                text-decoration-color:#effaff;
+                // text-decoration-line: underline;
+                //text-decoration-color:#effaff;
                 cursor:pointer;
                 //border-bottom:2px  solid #7d9cce;
                  display: flex;
@@ -392,6 +399,27 @@ export default {
 
 
                  }
+                 &.finalone{
+                    i{
+                    color:orange;
+                    margin-right:2px;
+                    
+                }
+                font-size:12px;
+                .el-rate{
+                     text-align: center;
+                 }
+                  .el-button{
+                     margin-top:10px;
+                     font-size: 12px;
+                     width:90px;
+                     height:30px;
+                     padding: 0;
+                     background:#effaff;
+                     margin-left:calc(50% - 45px);
+                 }
+
+                }
                  .mainContent1{
                      padding:20px;
                      float: left;

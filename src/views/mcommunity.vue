@@ -6,7 +6,20 @@
       <img @click="jumpToReview({urls:require('../assets/city.jpeg'),title:googleLocation.shortName})" src="../assets/search.png"/>
       </div>
       </div>
-       <div class="Title">Top 5 Favourites</div>
+       <div class="areas">
+       <div class="Title">Top 5 Favourites </div>
+       <div>
+           Choose city:
+       <el-select v-model="value" placeholder="Select" filterable>
+           <el-option
+            v-for="item in cities"
+            :key="item.city"
+            :label="item.city"
+            :value="item.city">
+           </el-option>
+       </el-select>
+       </div>
+      </div>
       <div class="topSearch">
          
           <div v-for="item in locations" :key="item.urls">
@@ -20,6 +33,7 @@
 </template>
 
 <script>
+import cities from '../api/au.json'
 export default {
     name:"communityPage",
     mounted(){
@@ -47,6 +61,8 @@ export default {
         return{
             inputText:"",
             googleLocation:"",
+            cities:cities,
+            value:"melbourne",
             locations:[{'urls':require('../assets/qv.jpeg'),"title":'QV'},{'urls':require('../assets/dock.jpeg'),"title":'Victoria Harbour'},{'urls':require('../assets/southern.jpeg'),"title":'565 Flinders Street'},{'urls':require('../assets/M.jpeg'),"title":'M City'},{'urls':require('../assets/Z.jpeg'),"title":'Zetland'}]
 
         }
@@ -94,8 +110,18 @@ export default {
         display: flex;
         align-items: center;
     }
+     .areas{
+        display: flex;
+        align-items: center;
+        .el-select{
+            width:100px;
+            height:80px;
+           
+
+        }
+    }
     .Title{
-        margin-left:20px;
+        margin-left:10px;
        padding-left:20px;
         width:160px;
         margin-bottom:40px;

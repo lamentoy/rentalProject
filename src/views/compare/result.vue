@@ -53,6 +53,7 @@ export default {
     name:"resultPage",
     props:["searchLocations","searchLocations2","LocationTypes"],
     mounted(){
+       
         //         console.log(this.$route.params.searchLocations)
         // console.log(this.$route.params.searchLocations2)
         // console.log(this.$route.params.LocationTypes)
@@ -93,10 +94,12 @@ export default {
   methods:{
       searchNearbyLocations(){
           console.log("calculate")
+           console.log(this.searchLocations)
+        console.log(this.searchLocations2)
         for(let i =0;i<this.searchLocations.length;i++){
-            if( this.searchLocations[i].viewport.Ab){
-              var lat = this.searchLocations[i].viewport.Ab.h
-              var lng= this.searchLocations[i].viewport.Va.h
+            if( this.searchLocations[i].viewport.Ta){
+              var lat = this.searchLocations[i].viewport.yb.h
+              var lng= this.searchLocations[i].viewport.Ta.h
             }else{
                  lat = this.searchLocations[i].viewport.south
                lng= this.searchLocations[i].viewport.west
@@ -123,6 +126,7 @@ export default {
               const URL1=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&keyword=tram_stop&radius=500&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;
         
               axios.get(URL1).then(async response=>{
+                  console.log(response)
                   let result= await response.data.results
                   console.log(result);
                   this.results[i][1].push(["tram stop",result])
