@@ -62,7 +62,8 @@ export default {
             inputText:"",
             googleLocation:"",
             value:"melbourne",
-            locations:[{'urls':require('../assets/qv.jpeg'),"title":'QV'},{'urls':require('../assets/dock.jpeg'),"title":'Victoria Harbour'},{'urls':require('../assets/southern.jpeg'),"title":'565 Flinders Street'},{'urls':require('../assets/M.jpeg'),"title":'M City'},{'urls':require('../assets/Z.jpeg'),"title":'Zetland'}],
+            locations:[{'urls':require('../assets/qv.jpeg'),"title":'QV'},{'urls':require('../assets/883.jpeg'),"title":'883 collins st'},{'urls':require('../assets/southern.jpeg'),"title":'565 Flinders Street'}, {'urls':require('../assets/light.jpeg'),"title":'light house'},{'urls':require('../assets/atira.png'),"title":'Scape Peel St Student Accommodation'}],
+           // {'urls':require('../assets/M.jpeg'),"title":'M City'},{'urls':require('../assets/Z.jpeg'),"title":'Zetland'}],
             cities:cities,
             loading:false
 

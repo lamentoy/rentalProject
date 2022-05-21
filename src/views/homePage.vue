@@ -63,7 +63,7 @@ export default {
         password:"",
         accName:"",
         active:1,
-        photos:[require('../assets/n1.jpg'),require('../assets/b1.jpeg'),require('../assets/b3.webp'),require('../assets/b4.jpeg')],
+        photos:[require('../assets/n1.jpg'),require('../assets/t11.jpg'),require('../assets/t3.jpeg'),require('../assets/t7.jpeg'),require('../assets/t8.jpeg'),require('../assets/t5.jpeg'),require('../assets/t6.jpeg'),require('../assets/t9.jpeg'),require('../assets/t10.jpeg')],
         logActive:1
       }
     },
@@ -110,7 +110,7 @@ export default {
 
         width: 100%;
 
-        height: 1000px;
+        height: 400px;
 
       }
   }
