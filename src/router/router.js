@@ -109,14 +109,14 @@ const routes = [
                 path:'/mpassword',
                 name:"mpassword",
                 component: () =>
-                    import ('../views/password.vue')
+                    import ('../views/mpassword.vue')
 
             },
             {
                 path:'/mprofile',
                 name:"mprofile",
                 component: () =>
-                    import ('../views/profile.vue')
+                    import ('../views/mprofile.vue')
 
             },
         ]
