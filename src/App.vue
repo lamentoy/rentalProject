@@ -11,10 +11,8 @@ export default {
   name: 'App',
   mounted(){
     if(this.isMobile()) {
-    console.log("移动端");
     this.$router.replace('/mobileMain');
   }else {
-    console.log("pc端");
     this.$router.replace('/');
   }
   },

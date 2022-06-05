@@ -27,7 +27,6 @@
 export default {
     name:"firstStep",
     mounted(){
-   console.log('kkkkkkkk')
     const LocationSearch=new window.google.maps.places.Autocomplete(
       document.getElementById("autocomplete"),
       {
@@ -42,25 +41,24 @@ export default {
 
     LocationSearch.addListener("place_changed", ()=>{
       let googleLocation=LocationSearch.getPlace()
-      //console.log(googleLocation)
+
       this.googleLocation={'fullAddress':googleLocation.formatted_address,'shortName':googleLocation.name,"viewport":googleLocation.geometry.viewport,"id":googleLocation.place_id}
     })
   },
   data(){
     return{
-      locationName:"",
-    
-      searchLocations:[],
-    
+      locationName:"",  
       googleLocation:"",
+      searchLocations:[]
 
     }
   },
   methods:{
     addLocations(){
-      if (this.locationName){
+      if (this.locationName && this.googleLocation){
       this.searchLocations.push(this.googleLocation)
       this.locationName=""
+      this.googleLocation=""
       this.$emit('getLocations', this.searchLocations)
       }else{
           this.$message.error('Please add an valid address!')

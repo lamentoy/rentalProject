@@ -92,11 +92,15 @@ export default {
   },
   methods:{
       searchNearbyLocations(){
-          console.log("calculate")
+  
         for(let i =0;i<this.searchLocations.length;i++){
-            if( this.searchLocations[i].viewport.yb){
+             if( this.searchLocations[i].viewport.Ta){
               var lat = this.searchLocations[i].viewport.yb.h
               var lng= this.searchLocations[i].viewport.Ta.h
+            }
+            else if(this.searchLocations[i].viewport.Ab){
+                lat = this.searchLocations[i].viewport.Ab.h
+                lng= this.searchLocations[i].viewport.Ua.h
             }else{
                  lat = this.searchLocations[i].viewport.south
                lng= this.searchLocations[i].viewport.west
@@ -110,7 +114,7 @@ export default {
         
             axios.get(URL).then(async response=>{
                   let  result= await response.data.results
-                  console.log(result);
+           
                   this.results[i][1].push([this.types[j],result])
                   this.rateThePlace()
                   
@@ -124,7 +128,7 @@ export default {
         
               axios.get(URL1).then(async response=>{
                   let result= await response.data.results
-                  console.log(result);
+          
                   this.results[i][1].push(["tram stop",result])
                   this.rateThePlace()
                   
@@ -150,7 +154,7 @@ export default {
               })
              
               }}
-              console.log(this.results)
+        
           }
           
           
@@ -165,9 +169,7 @@ export default {
           }
           this.$store.commit("updatefavList",this.favList)
           this.fav.splice(index,1,true)
-        console.log(element)
-        console.log(this.favList)
-        console.log(this.results)
+          this.$message.success('You save the result!')
         
       },
       distanceMatrix(id,index){
@@ -175,7 +177,6 @@ export default {
             // const lat1 = this.searchLocations2[i].viewport.Ab.h
             // const lng1= this.searchLocations2[i].viewport.Va.h
             const id2=this.searchLocations2[i].id
-            console.log('222222',id,id2)
             var axios = require('axios');
             var config = {
             method: 'get',
@@ -197,7 +198,7 @@ export default {
 
       },
       removeFromFavorite(element,index){
-          console.log(element)
+    
           for(let i=0;i<this.favList.length;i++){
               if(this.favList[i][0]==element[0]){
                   this.favList.splice(i,1)
@@ -205,29 +206,25 @@ export default {
           }
         this.$store.commit("updatefavList",this.favList)
         this.fav.splice(index,1,false)
-        console.log(element)
-        console.log(this.favList)
-        console.log(this.results)
+        this.$message.error('You remove the result!')
+      
 
       },
       jumpToReview(item){
             this.$router.push(
                 {
                     name:'mreview',
-                    params:{"src":item.urls,"title":item.title}
+                    params:{"src":item.urls,"title":item.title,"pre":1,"searchLocations":this.searchLocations,"searchLocations2":this.searchLocations2,"LocationTypes":this.LocationTypes}
                 }
             )
         },
       checkIfAdded(name){
           var k=false
-          console.log(this.favList)
-          console.log(name)
           if(this.favList && this.favList.length>0){
           this.favList.forEach(item=>{
               if(item[0]==name){
                   k=true
               }
-        console.log(this.favList)
 
           })
            }

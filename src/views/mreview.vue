@@ -1,16 +1,21 @@
 <template>
   <div class="communityReview">
+      <div class="titleName"><span/>Community Review Page</div>
       <div class="profileCard">
           <div><img :src="src"/></div>
           <div class="profileBody">
               <div class="profileTitle">{{title}}</div>
+              <div class="favLists">
+                <div class="favIcon clickable" @click="addtoFavorite()" v-if="!favLoc" ><img src="../assets/addFav.png" /></div>
+                <div class="favIcon clickable" @click="removeFromFavorite()" v-if="favLoc" ><img src="../assets/removeFav.png" /></div>
               <div class="writeReview" @click="dialogVisible=true"><i class="el-icon-star-off"/><i class="el-icon-edit-outline"/></div>
+              </div>
               <div class="profileRating">
               <div>Noisy Level:
                 <el-rate
                 disabled
                 show-score
-                v-model="value1"
+                v-model.number="value1"
                 :icon-classes="iconClasses1"
                 disabled-void-color="rgb(198, 209, 222)"
                 score-template="  Level {value}"
@@ -20,7 +25,7 @@
              </div>
               <div>Safety Level:
                 <el-rate
-                v-model="value2"
+                v-model.number="value2"
                 disabled
                 show-score
                 :icon-classes="iconClasses"
@@ -32,7 +37,7 @@
               </div>
               <div>Environment:
                 <el-rate
-                v-model="value3"
+                v-model.number="value3"
                 disabled
                 :icon-classes="iconClasses"
                 show-score
@@ -44,7 +49,7 @@
               </div>
                
               </div>
-              <div class="profileFooter"><i class="el-icon-info"/>Average rating (10 people rated)</div>
+              <div class="profileFooter"><i class="el-icon-info"/>Average rating ({{people}} ratings in total)</div>
           </div>
       </div>
       <div class="Comments">
@@ -78,10 +83,10 @@
           <div>A lot of people here at night, feeling safe when i went home late.</div>
           </div>
           <div  v-if="comments.length>0">
-          <div class="comment" v-for="(c,index) in comments" :key="index+c">
+          <div class="comment myself" v-for="(c,index) in comments" :key="index+c">
             <div class="peoples">
             <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-             <span>Lily</span>
+             <span>me</span>
           </div>
     
           <div>{{c}}</div>
@@ -95,13 +100,15 @@
       <el-dialog
       title="Rating and Comments"
       :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      :show-close="false"
       :modal="false"
       width="80vw"
       >
       <div class="profileRating">
               <div>Noisy Level 
                 <el-rate
-                v-model="value4"
+                v-model.number="value4"
                 show-score
                 :icon-classes="iconClasses1"
                 score-template="  Level {value}"
@@ -112,7 +119,7 @@
              </div>
               <div>Safety Level
                 <el-rate
-                v-model="value5"
+                v-model.number="value5"
                 :icon-classes="iconClasses"
                 text-color="#ff9900"
                 score-template="  Level {value}"
@@ -123,7 +130,7 @@
               </div>
               <div>Environment
                 <el-rate
-                v-model="value6"
+                v-model.number="value6"
                 :icon-classes="iconClasses"
                 score-template="  Level {value}"
                 text-color="#ff9900"
@@ -142,6 +149,9 @@
         </div>
 
       </el-dialog>
+      <div class="firstline"><el-button v-if="result" @click="resultPage">Back to result page</el-button>
+      <el-button v-if="!result" @click="$router.push('/mcommunity')">Back to community page</el-button>
+      </div>
   </div>
 </template>
 
@@ -152,8 +162,17 @@ export default {
     mounted(){
         this.src=this.$route.params.src
         this.title=this.$route.params.title
-        console.log(this.src)
-        console.log(this.title)
+        let pre=this.$route.params.pre
+        this.favList = this.$store.state.favList1
+        if(pre==1){
+            this.result=true
+             this.searchLocations=this.$route.params.searchLocations
+            this.searchLocations2=this.$route.params.searchLocations2
+            this.LocationTypes=this.$route.params.LocationTypes
+
+        }
+        this.checkFav()
+ 
     },
     data(){
         return{
@@ -165,8 +184,15 @@ export default {
             value4: 0,
             value5: 0,
             value6: 0,
+             favLoc:false,
+            searchLocations:[],
+            searchLocations2:[],
+            LocationTypes:[],
+           // "searchLocations":this.searchLocations,"searchLocations2":this.searchLocations2,"LocationTypes":this.LocationTypes
+            result:false,
             comment:'',
             comments:[],
+            people:10,
             iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'],
             iconClasses1: ['icon-rate-face-3', 'icon-rate-face-2', 'icon-rate-face-1'],
             dialogVisible:false
@@ -176,14 +202,42 @@ export default {
         submitComments(){
             if(this.comment!=""){
             this.comments.push(this.comment)
+            this.people+=1
+            this.value1= ((this.value4+this.value1*(this.people-1))/this.people).toFixed(1)
+            this.value2= ((this.value5+this.value2*(this.people-1))/this.people).toFixed(1)
+            this.value3= ((this.value6+this.value3*(this.people-1))/this.people).toFixed(1)
             this.comment=""
-            this.value4= 0
-            this.value5= 0
-            this.value6= 0
+            this.value4=0
+            this.value5=0
+            this.value6=0
             this.dialogVisible=false
+            this.$message.success('Comment submitted!')
+
             }
             else{
                 this.$message.error('Please enter a valid comment')
+            }
+        },
+        addtoFavorite(){
+            this.favList.push(this.title)
+            this.$store.commit("updatefavList1",this.favList)
+            this.favLoc=true
+            this.$message.success('You like the place!')
+        },
+        removeFromFavorite(){
+            this.index=this.favList.indexOf(this.title)
+            this.favList.splice(this.index,1)
+             this.$store.commit("updatefavList1",this.favList)
+            this.favLoc=false
+            this.$message.error('You unlike the place!')
+        },
+        checkFav(){
+            this.index=this.favList.indexOf(this.title)
+            if(this.index==-1){
+                this.favLoc=false
+
+            }else{
+                this.favLoc=true
             }
         },
         cancelComments(){
@@ -193,7 +247,18 @@ export default {
             this.value5= 0
             this.value6= 0
 
-        }
+        },
+        resultPage(){
+            this.$router.push(
+                {
+                    name:'mfirstPage',
+                    params:{"pre":2,"searchLocations":this.searchLocations,"searchLocations2":this.searchLocations2,"LocationTypes":this.LocationTypes}
+                }
+            )
+
+        },
+        
+    
     }
 
 }
@@ -210,7 +275,6 @@ export default {
     .profileCard{
         box-sizing: border-box;
         width: 90vw;
-        height: 530px;
         border: 1px solid #a1c4fd;
         margin-left:5vw;
         margin-top:2vh;
@@ -242,12 +306,21 @@ export default {
 
             
             }
+            .favLists{
+                display: flex;
+                justify-content: space-between;
+                margin: 20px;
+                margin-top:0;
+                .favIcon, img{
+                         width:16px;
+                         height: 16px;
+                     }
+                div{
+                     cursor: pointer;
+                }
             .writeReview{
-                 margin-bottom: 20px;
-                 margin-right:20px;
-                 margin-left:calc(100% - 60px);
                  cursor: pointer;
-            }
+            }}
             .profileRating{
                  padding-left: 30px;
                  padding-right:30px;
@@ -281,6 +354,9 @@ export default {
                 background: #b6d2ff;
                 padding: 20px;
                 margin-bottom:30px;
+                &.myself{
+                    background: white;
+                }
                 .peoples{
                     align-items: center;
                     justify-content: center;
@@ -292,16 +368,46 @@ export default {
                     }
                     // border:1px solid black;
                     // background: #d9e4f4;
+                    
                    
                     
                 }
-                div{
-                    
-                    margin-left:20px;
+                div:nth-of-type(2){
+                     word-break: break-word;
+                   // overflow: scroll;
+                   margin-left:20px;
+
                 }
 
             }
 
+        }
+        .firstline{
+        .el-button{
+            margin-top:2vh;
+             height:30px;
+            width:200px;
+            padding: 0;
+            margin-left:calc(50% - 100px)
+        }}
+        .titleName{
+            text-align: center;
+            display: flex;
+            align-items: center;
+           
+            height:30px;
+            width:250px;
+            padding: 0;
+            border-radius: 3px 3px 0 0;
+            span{
+                display: inline-block;
+                height: 20px;
+                margin:5px;
+                margin-left:15px;
+                 margin-right:10px;
+                width:5px;
+                background: #89b6ff;
+            }
         }
         .el-dialog{
            padding: 20px;
@@ -320,6 +426,7 @@ export default {
                 div{
                     //display: flex;
                     margin-bottom: 10px;
+                    
                    
                 }
                 .el-rate{

@@ -61,7 +61,7 @@ export default {
 
     LocationSearch.addListener("place_changed", ()=>{
       let googleLocation=LocationSearch.getPlace()
-      console.log(googleLocation)
+
       this.googleLocation={'fullAddress':googleLocation.formatted_address,'shortName':googleLocation.name,"viewport":googleLocation.geometry.viewport,"id":googleLocation.place_id}
     })
 

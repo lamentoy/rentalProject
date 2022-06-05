@@ -64,7 +64,7 @@ export default {
 
     LocationSearch2.addListener("place_changed", ()=>{
       let googleLocation2=LocationSearch2.getPlace()
-      console.log(googleLocation2)
+  
       this.googleLocation2={'fullAddress':googleLocation2.formatted_address,'shortName':googleLocation2.name,"viewport":googleLocation2.geometry.viewport,"id":googleLocation2.place_id}
     })
 
@@ -82,9 +82,10 @@ export default {
   },
   methods:{
     addLocations2(){
-     if (this.locationName1){
+     if (this.locationName1 && this.googleLocation2){
       this.searchLocations2.push(this.googleLocation2)
       this.locationName1=""
+       this.googleLocation2=""
       this.$emit('getLocations2', this.searchLocations2)
       }else{
           this.$message.error('Please add an valid address!')

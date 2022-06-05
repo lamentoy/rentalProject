@@ -1,16 +1,18 @@
 <template>
   <div class="first_Page">
     <el-steps :active="activeStep">
-    <el-step title="Step 1" description="Enter the locations you want to compare in this step."></el-step>
-    <el-step title="Step 2" description="Enter the places you want to live close to or keywords of facility you would like to have around."></el-step>
+    <el-step title="Step 1" description="Enter the neighbourhoods you want to compare in this step."></el-step>
+    <el-step title="Step 2" description="Enter the places you want to live close to or keywords of facility you would like to have around.(Optional)"></el-step>
     <el-step title="Step 3" description="Seach and get the comparision results."></el-step>
   </el-steps>
-  <step1 class="step1" v-show="activeStep==1" @getLocations="getLocations"/>
+  <step1 class="step1" v-show="activeStep==1" @getLocations="getLocations" />
    <step2 class="step1" v-show="activeStep==2" @getLocations2="getLocations2" @getKeyWord="getKeyWord"/>
    <result class="step1" v-if="activeStep==3" :searchLocations2="searchLocations2" :searchLocations="searchLocations" :LocationTypes="LocationTypes"/>
   <div class="stepChange">
-     <el-button @click="changeStep(1)"  v-if="activeStep!=1">Back</el-button>
+     <el-button @click="changeStep(1)"  v-if="activeStep==2">Back</el-button>
      <el-button @click="changeStep(2)" v-if="activeStep!=3">Next</el-button>
+     <el-button @click="changeStep(3)" class="again" v-if="activeStep==3 && pre==2">Search Again</el-button>
+     <el-button @click="changeStep(1)"  v-if="activeStep==3 && pre!=2">Back</el-button>
   </div>
   </div>
 
@@ -24,6 +26,18 @@ export default {
     name:"firstPage",
     components:{step1,step2,result},
     mounted(){
+      let pre=this.$route.params.pre
+        if(pre==2){
+            this.result=true
+             this.searchLocations=this.$route.params.searchLocations
+            this.searchLocations2=this.$route.params.searchLocations2
+            this.LocationTypes=this.$route.params.LocationTypes
+            this.activeStep=3
+            this.pre=2
+
+
+        }
+     
 
   },
   data(){
@@ -32,6 +46,7 @@ export default {
       searchLocations:[],
       searchLocations2:[],
       LocationTypes:[],
+      pre:0,
 
 
      
@@ -56,21 +71,26 @@ export default {
         }
         
       }
-      console.log(this.activeStep)
+      else if(index==3){
+        this.activeStep=1
+        this.pre=0
+      
+      }
+
     },
     getLocations(value){
-      console.log(value)
+  
       this.searchLocations=value
 
     },
     getLocations2(value){
-      console.log(value)
+     
       this.searchLocations2=value
      // this.compareocation=value
 
     },
     getKeyWord(value){
-      console.log(value)
+
       this.LocationTypes=value
      // this.compareocation=value
 
@@ -122,7 +142,11 @@ export default {
       font-size:12px;
       margin-right:20px;
       border: 1px solid #a1c4fd;
+
      
+     }
+     .again{
+        width:120px;
      }}
   }
 </style>

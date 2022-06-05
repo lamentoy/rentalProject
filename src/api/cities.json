@@ -1,0 +1,58 @@
+[
+  {
+    "city": "Sydney", 
+    "lat": "-33.8650", 
+    "lng": "151.2094", 
+    "country": "Australia", 
+    "iso2": "AU", 
+    "admin_name": "New South Wales", 
+    "capital": "admin", 
+    "population": "5312163", 
+    "population_proper": "4840600"
+  }, 
+  {
+    "city": "Melbourne", 
+    "lat": "-37.8136", 
+    "lng": "144.9631", 
+    "country": "Australia", 
+    "iso2": "AU", 
+    "admin_name": "Victoria", 
+    "capital": "admin", 
+    "population": "5078193", 
+    "population_proper": "4529500"
+  }, 
+  {
+    "city": "Brisbane", 
+    "lat": "-27.4678", 
+    "lng": "153.0281", 
+    "country": "Australia", 
+    "iso2": "AU", 
+    "admin_name": "Queensland", 
+    "capital": "admin", 
+    "population": "2514184", 
+    "population_proper": "2360241"
+  }, 
+  {
+    "city": "Perth", 
+    "lat": "-31.9522", 
+    "lng": "115.8589", 
+    "country": "Australia", 
+    "iso2": "AU", 
+    "admin_name": "Western Australia", 
+    "capital": "admin", 
+    "population": "2059484", 
+    "population_proper": "2039200"
+  }, 
+  {
+    "city": "Adelaide", 
+    "lat": "-34.9289", 
+    "lng": "138.6011", 
+    "country": "Australia", 
+    "iso2": "AU", 
+    "admin_name": "South Australia", 
+    "capital": "admin", 
+    "population": "1345777", 
+    "population_proper": "1295714"
+  }
+
+]

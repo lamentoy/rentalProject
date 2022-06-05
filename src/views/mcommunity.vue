@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import cities from '../api/au.json'
+import cities from '../api/cities.json'
 export default {
     name:"communityPage",
     mounted(){
@@ -51,7 +51,7 @@ export default {
 
     LocationSearch.addListener("place_changed", ()=>{
       let googleLocation=LocationSearch.getPlace()
-      //console.log(googleLocation)
+ 
       this.googleLocation={'fullAddress':googleLocation.formatted_address,'shortName':googleLocation.name,"viewport":googleLocation.geometry.viewport,"id":googleLocation.place_id}
     })
 
@@ -62,8 +62,39 @@ export default {
             inputText:"",
             googleLocation:"",
             cities:cities,
-            value:"melbourne",
-            locations:[{'urls':require('../assets/qv.jpeg'),"title":'QV'},{'urls':require('../assets/dock.jpeg'),"title":'Victoria Harbour'},{'urls':require('../assets/southern.jpeg'),"title":'565 Flinders Street'},{'urls':require('../assets/M.jpeg'),"title":'M City'},{'urls':require('../assets/Z.jpeg'),"title":'Zetland'}]
+            value:"Melbourne",
+            locations:[{'urls':require('../assets/qv.jpeg'),"title":'QV'},{'urls':require('../assets/883.jpeg'),"title":'883 collins st'},{'urls':require('../assets/southern.jpeg'),"title":'565 Flinders Street'}, {'urls':require('../assets/light.jpeg'),"title":'light house'},{'urls':require('../assets/atira.png'),"title":'Scape Peel St Student Accommodation'}]
+
+        }
+    },
+     watch:{
+        value(newVal,oldVal){
+            this.loading=true
+           
+             if(newVal==oldVal){
+                 this.loading=false
+             }else{
+                 switch(newVal) {
+                    case "Melbourne":
+                        this.locations=[{'urls':require('../assets/qv.jpeg'),"title":'QV'},{'urls':require('../assets/883.jpeg'),"title":'883 collins st'},{'urls':require('../assets/southern.jpeg'),"title":'565 Flinders Street'}, {'urls':require('../assets/light.jpeg'),"title":'light house'},{'urls':require('../assets/atira.png'),"title":'Scape Peel St Student Accommodation'}]
+                        break;
+                    case "Sydney":
+                        this.locations=[{'urls':require('../assets/M.jpeg'),"title":'M City'},{'urls':require('../assets/Z.jpeg'),"title":'Zetland'},{'urls':require('../assets/green.jpeg'),"title":'Green Square'}, {'urls':require('../assets/water.webp'),"title":'Waterloo'},{'urls':require('../assets/darling.webp'),"title":'Darling square'}]
+                        break;
+                    case "Brisbane":
+                    this.locations=[{'urls':require('../assets/garden.webp'),"title":'Garden City'},{'urls':require('../assets/sunny.jpeg'),"title":'Sunnybank'},{'urls':require('../assets/lucia.jpeg'),"title":'st Lucia'}, {'urls':require('../assets/Toowong.jpeg'),"title":'Toowong'},{'urls':require('../assets/Indoorpilly.jpeg'),"title":'Indooroopilly'}]
+                        break;
+                    case "Perth":
+                        this.locations=[{'urls':require('../assets/crawley.jpeg'),"title":'Crawley Village'},{'urls':require('../assets/Nedlands.jpeg'),"title":'Nedlands'},{'urls':require('../assets/murray.jpeg'),"title":'Murray Street'}, {'urls':require('../assets/Cannington.webp'),"title":'Cannington'},{'urls':require('../assets/Wellington.webp'),"title":'Wellington street'}]
+                        break;
+                    case "Adelaide":
+                        this.locations=[{'urls':require('../assets/gray.jpeg'),"title":'Grey Street'},{'urls':require('../assets/Rundle.jpeg'),"title":'Rundle Mall'},{'urls':require('../assets/y.jpeg'),"title":'Y Suits'}, {'urls':require('../assets/dwell.jpeg'),"title":'Dwell'},{'urls':require('../assets/angas.jpeg'),"title":'Angas Street'}]
+                        break;
+                        // code block
+                    }
+                 this.loading=false
+             }
+
 
         }
     },

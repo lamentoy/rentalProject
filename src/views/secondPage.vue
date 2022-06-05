@@ -41,9 +41,7 @@ import axios from "axios"
 export default {
     name:"secondPage",
     mounted(){
-        console.log(this.$route.params.searchLocations)
-        console.log(this.$route.params.searchLocations2)
-        console.log(this.$route.params.LocationTypes)
+       
         this.searchLocations=this.$route.params.searchLocations
         this.searchLocations2=this.$route.params.searchLocations2
         this.LocationTypes=this.$route.params.LocationTypes
@@ -53,16 +51,14 @@ export default {
         this.searchNearbyLocations()
         sessionStorage.setItem('params', JSON.stringify(this.$route.params));
         let data = sessionStorage.getItem('params');
-            console.log('adddd',data)
+          
         }else{
             let data = JSON.parse(sessionStorage.getItem('params'));
-            console.log(data)
-            console.log(data.searchLocations)
+          
             this.searchLocations=data.searchLocations
             this.searchLocations2=data.searchLocations2
             this.LocationTypes=data.LocationTypes
-            console.log(data.searchLocations2)
-            console.log(data.LocationTypes)
+           
             this.searchNearbyLocations()
         }
    
@@ -99,7 +95,6 @@ export default {
         
             axios.get(URL).then(async response=>{
                   let  result= await response.data.results
-                  console.log(result);
                   this.results[i][1].push([this.types[j],result])
                   this.rateThePlace()
                   
@@ -113,7 +108,6 @@ export default {
         
               axios.get(URL1).then(async response=>{
                   let result= await response.data.results
-                  console.log(result);
                   this.results[i][1].push(["tram stop",result])
                   this.rateThePlace()
                   
@@ -139,7 +133,6 @@ export default {
               })
              
               }}
-              console.log(this.results)
           }
           
           
@@ -154,9 +147,7 @@ export default {
           }
           this.$store.commit("updatefavList",this.favList)
           this.fav.splice(index,1,true)
-        console.log(element)
-        console.log(this.favList)
-        console.log(this.results)
+   
         
       },
       distanceMatrix(id,index){
@@ -164,7 +155,6 @@ export default {
             // const lat1 = this.searchLocations2[i].viewport.Ab.h
             // const lng1= this.searchLocations2[i].viewport.Va.h
             const id2=this.searchLocations2[i].id
-            console.log('222222',id,id2)
             var axios = require('axios');
             var config = {
             method: 'get',
@@ -186,7 +176,7 @@ export default {
 
       },
       removeFromFavorite(element,index){
-          console.log(element)
+          
           for(let i=0;i<this.favList.length;i++){
               if(this.favList[i][0]==element[0]){
                   this.favList.splice(i,1)
@@ -194,21 +184,17 @@ export default {
           }
         this.$store.commit("updatefavList",this.favList)
         this.fav.splice(index,1,false)
-        console.log(element)
-        console.log(this.favList)
-        console.log(this.results)
 
       },
       checkIfAdded(name){
           var k=false
-          console.log(this.favList)
-          console.log(name)
+   
           if(this.favList && this.favList.length>0){
           this.favList.forEach(item=>{
               if(item[0]==name){
                   k=true
               }
-        console.log(this.favList)
+  
 
           })
            }

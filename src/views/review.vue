@@ -1,10 +1,19 @@
 <template>
   <div class="communityReview">
+      <div class="titleName"><span/>Community Review Page</div>
+      <div class="firstline"><el-button v-if="result" @click="resultPage">Back to result page</el-button>
+      <el-button v-if="!result" @click="$router.push('/community')">Back to community page</el-button>
+      </div>
+      <div class="Mainc">
       <div class="profileCard">
           <div><img :src="src"/></div>
           <div class="profileBody">
               <div class="profileTitle">{{title}}</div>
+              <div class="favLists">
+                <div class="favIcon clickable" @click="addtoFavorite()" v-if="!favLoc" ><img src="../assets/addFav.png" /></div>
+                <div class="favIcon clickable" @click="removeFromFavorite()" v-if="favLoc" ><img src="../assets/removeFav.png" /></div>
               <div class="writeReview" @click="dialogVisible=true"><i class="el-icon-star-off"/><i class="el-icon-edit-outline"/></div>
+              </div>
               <div class="profileRating">
               <div>Noisy Level:
                 <el-rate
@@ -44,7 +53,7 @@
               </div>
                
               </div>
-              <div class="profileFooter"><i class="el-icon-info"/>Average rating (10 people rated)</div>
+              <div class="profileFooter"><i class="el-icon-info"/>Average rating ({{people}} ratings in total)</div>
           </div>
       </div>
       <div class="Comments">
@@ -78,10 +87,10 @@
           <div>A lot of people here at night, feeling safe when i went home late.</div>
           </div>
           <div  v-if="comments.length>0">
-          <div class="comment" v-for="(c,index) in comments" :key="index+c">
+          <div class="comment myself" v-for="(c,index) in comments" :key="index+c">
             <div class="peoples">
             <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-             <span>Lily</span>
+             <span>me</span>
           </div>
     
           <div>{{c}}</div>
@@ -95,6 +104,8 @@
       <el-dialog
       title="Rating and Comments"
       :visible.sync="dialogVisible"
+      :close-on-click-modal="false"
+      :show-close="false"
       :modal="false"
       width="400px"
       >
@@ -142,6 +153,7 @@
         </div>
 
       </el-dialog>
+      </div>
   </div>
 </template>
 
@@ -152,8 +164,17 @@ export default {
     mounted(){
         this.src=this.$route.params.src
         this.title=this.$route.params.title
-        console.log(this.src)
-        console.log(this.title)
+        let pre=this.$route.params.pre
+        this.favList = this.$store.state.favList1
+        if(pre==1){
+            this.result=true
+             this.searchLocations=this.$route.params.searchLocations
+            this.searchLocations2=this.$route.params.searchLocations2
+            this.LocationTypes=this.$route.params.LocationTypes
+
+        }
+        this.checkFav()
+      
     },
     data(){
         return{
@@ -165,8 +186,17 @@ export default {
             value4: 0,
             value5: 0,
             value6: 0,
+            favLoc:false,
+            searchLocations:[],
+            searchLocations2:[],
+            LocationTypes:[],
+            favList:[],
+           // "searchLocations":this.searchLocations,"searchLocations2":this.searchLocations2,"LocationTypes":this.LocationTypes
+            result:false,
             comment:'',
             comments:[],
+            people:10,
+            index:-1,
             iconClasses: ['icon-rate-face-1', 'icon-rate-face-2', 'icon-rate-face-3'],
             iconClasses1: ['icon-rate-face-3', 'icon-rate-face-2', 'icon-rate-face-1'],
             dialogVisible:false
@@ -175,15 +205,42 @@ export default {
     methods:{
         submitComments(){
             if(this.comment!=""){
-            this.comments.push(this.comment)
+            this.comments.push(""+this.comment)
+            this.people+=1
+            this.value1=((this.value4+this.value1*(this.people-1))/this.people).toFixed(1)
+            this.value2=((this.value5+this.value2*(this.people-1))/this.people).toFixed(1)
+            this.value3=((this.value6+this.value3*(this.people-1))/this.people).toFixed(1)
             this.comment=""
-            this.value4= 0
-            this.value5= 0
-            this.value6= 0
+            this.value4=0
+            this.value5=0
+            this.value6=0
             this.dialogVisible=false
+            this.$message.success('Comment submitted!')
             }
             else{
-                this.$message.error('Please enter a valid comment')
+                this.$message.error('Please enter a valid comment!')
+            }
+        },
+        addtoFavorite(){
+            this.favList.push(this.title)
+            this.$store.commit("updatefavList1",this.favList)
+            this.favLoc=true
+            this.$message.success('You like the place!')
+        },
+        removeFromFavorite(){
+            this.index=this.favList.indexOf(this.title)
+            this.favList.splice(this.index,1)
+             this.$store.commit("updatefavList1",this.favList)
+            this.favLoc=false
+            this.$message.error('You unlike the place!')
+        },
+        checkFav(){
+            this.index=this.favList.indexOf(this.title)
+            if(this.index==-1){
+                this.favLoc=false
+
+            }else{
+                this.favLoc=true
             }
         },
         cancelComments(){
@@ -192,8 +249,19 @@ export default {
             this.value4= 0
             this.value5= 0
             this.value6= 0
+         
 
-        }
+        },
+        resultPage(){
+            this.$router.push(
+                {
+                    name:'firstPage',
+                    params:{"pre":2,"searchLocations":this.searchLocations,"searchLocations2":this.searchLocations2,"LocationTypes":this.LocationTypes}
+                }
+            )
+
+        },
+        
     }
 
 }
@@ -202,26 +270,32 @@ export default {
 <style lang="less" scoped>
 .communityReview {
     margin:40px;
-    height:590px;
+    height:80vh;
     margin-top:60px;
      margin-left:calc(14% + 40px);
     background: white;
     position: fixed;
     width:calc(85% - 80px);
-     display: flex;
-    overflow: scroll;
+    
+    .Mainc{
+         display: flex;
+       
+          
+
+    }
+    
     .profileCard{
         box-sizing: border-box;
-        width: 400px;
-        height: 530px;
+        width:calc(35%);
+        height: 70vh;
         border: 1px solid #a1c4fd;
         margin-left:50px;
         margin-top:30px;
         box-shadow: 0 0 8px #89b6ff;
 
         img{
-            width:400px;
-            height: 300px;
+            width:100%;
+            height: 40vh;
         }
         .profileBody{
             width:100%;
@@ -245,19 +319,28 @@ export default {
 
             
             }
+            .favLists{
+                display: flex;
+                justify-content: space-between;
+                margin: 20px;
+                margin-top:0;
+                .favIcon, img{
+                         width:16px;
+                         height: 16px;
+                     }
+                div{
+                     cursor: pointer;
+                }
             .writeReview{
-                 margin-bottom: 20px;
-                 margin-right:20px;
-                 margin-left:calc(100% - 60px);
                  cursor: pointer;
-            }
+            }}
             .profileRating{
                  padding-left: 30px;
                  padding-right:30px;
                 div{
                     display: flex;
                     justify-content: space-between;
-                    margin-bottom: 10px;
+                    margin-bottom: 1vh;
                 }
                 .el-rate{
                     margin-left:20px;
@@ -267,8 +350,8 @@ export default {
         }
     }
         .Comments{
-            height:520px;
-            width:600px;
+            height:70vh;
+            width:calc(60% - 40px - 40px);
             border: 1px solid #a1c4fd;
             box-shadow: 0 0 8px #89b6ff;
              overflow: scroll;
@@ -283,6 +366,10 @@ export default {
                 background: #b6d2ff;
                 padding: 20px;
                 margin-bottom:30px;
+               
+                &.myself{
+                    background: white;
+                }
                 .peoples{
                     align-items: center;
                     justify-content: center;
@@ -297,9 +384,12 @@ export default {
                    
                     
                 }
-                div{
+                div:nth-of-type(2){
                     
                     margin-left:20px;
+                     word-break: break-word;
+                   // overflow: scroll;
+
                 }
 
             }
@@ -330,6 +420,37 @@ export default {
                 }
             }
         }
+        .firstline{
+        .el-button{
+            position:absolute;
+            top:-30px;
+            right:0;
+            height:30px;
+            width:200px;
+            padding: 0;
+        }}
+        .titleName{
+            background: white;
+            text-align: center;
+            position:absolute;
+            display: flex;
+            align-items: center;
+            top:-30px;
+            height:30px;
+            width:250px;
+            padding: 0;
+            border-radius: 3px 3px 0 0;
+            span{
+                display: inline-block;
+                height: 20px;
+                margin:5px;
+                margin-left:15px;
+                 margin-right:10px;
+                width:5px;
+                background: #89b6ff;
+            }
+        }
+        
     }
 
 </style>

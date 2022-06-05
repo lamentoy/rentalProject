@@ -1,7 +1,18 @@
 <template>
   <div class="favList">
-      <div class="result">Favourite List</div>
-
+      <div class="result">Favourite Locations</div>
+      <el-empty v-if="favList1.length==0" description="The list is currently empty." :image-size="320"></el-empty>
+      <div v-if="favList1.length>0" class="resultbody1">
+          <el-tag
+            v-for="(tag,index) in favList1"
+            :key="tag"
+            type="warning"
+            effect="plain">
+            {{tag}}
+            <i class="el-icon-close" @click="removeLocation(index)"/>
+            </el-tag>
+      </div>
+      <div class="result">Preferred Results</div>
       <el-empty v-if="favList.length==0" description="The list is currently empty." :image-size="320"></el-empty>
       <div v-if="favList.length>0" class="resultbody">
       
@@ -14,7 +25,7 @@
                 show-score
                 text-color="#ff9900"
                 score-template="{value} stars"></el-rate>
-                <div class="favIcon" @click="removeFromFavorite(element,index)"><img src="../assets/removeFav.png" /></div>
+                <div class="favIcon" @click="removeFromFavorite(index)"><img src="../assets/removeFav.png" /></div>
          </div>
           </div>
       <div class='eachResult'>
@@ -33,22 +44,28 @@ export default {
     name:"fav_list",
     mounted(){
         this.favList = this.$store.state.favList
+        this.favList1 = this.$store.state.favList1
     },
     data(){
         return{
+            favList1:[],
             favList:[]
         }
     },
     methods:{
-        removeFromFavorite(element,index){
-          console.log(element)
-         
+        removeFromFavorite(index){
         this.favList.splice(index,1)
        
         this.$store.commit("updatefavList",this.favList)
         
 
       },
+       removeLocation(index){
+          this.favList1.splice(index,1)
+       
+        this.$store.commit("updatefavList1",this.favList1)
+
+    }
     }
 
 
@@ -61,14 +78,12 @@ export default {
     
     z-index:1;
     margin-bottom:10px;
-    margin:auto;
+    padding: 2vw;
     margin-top:1vh;  
-    width:100vw;
+    width:96vw;
     overflow: scroll;
     .el-empty{
-         position: absolute;
-         bottom: 8%;
-         left: calc(50vw)
+         margin-left: calc(50vw - 160px)
          
     }
     .result{
@@ -77,6 +92,20 @@ export default {
         padding-left:20px;
         border-left: 4px solid #a1c4fd;
     }
+    .resultbody1{
+        display: flex;
+        flex-wrap: wrap;
+        border-top: 1px  solid #a1c4fd;
+          margin-top:10px;
+          margin-bottom: 15px;
+         .el-tag{
+             margin-top:1vh;
+             background-image: linear-gradient(120deg, #2464cb 0%, #7ad5ff 100%);
+             color: white;
+             border:1px  solid #a1c4fd;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.2);
+            margin-right: 15px;
+         }}
     .resultbody{
         display: flex;
         justify-content: space-between;
@@ -87,7 +116,7 @@ export default {
         & > div{
             width:90vw;
             margin-top:4vh;
-            margin-left:5vw;
+            margin-left:3vw;
             box-sizing: border-box;
             border:1px  solid #a1c4fd;
             box-shadow: 0 1px 8px rgba(0,0,0,0.2);

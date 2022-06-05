@@ -1,7 +1,18 @@
 <template>
   <div class="favList">
-      <div class="result">Favourite List</div>
-
+      <div class="result">Favourite Locations</div>
+      <el-empty v-if="favList1.length==0" description="The list is currently empty." :image-size="320"></el-empty>
+      <div v-if="favList1.length>0" class="resultbody1">
+          <el-tag
+            v-for="(tag,index) in favList1"
+            :key="tag"
+            type="warning"
+            effect="plain">
+            {{tag}}
+            <i class="el-icon-close" @click="removeLocation(index)"/>
+            </el-tag>
+      </div>
+      <div class="result">Preferred Results</div>
       <el-empty v-if="favList.length==0" description="The list is currently empty." :image-size="320"></el-empty>
       <div v-if="favList.length>0" class="resultbody">
       
@@ -33,15 +44,17 @@ export default {
     name:"fav_list",
     mounted(){
         this.favList = this.$store.state.favList
+        this.favList1 = this.$store.state.favList1
     },
     data(){
         return{
+            favList1:[],
             favList:[]
         }
     },
     methods:{
         removeFromFavorite(element,index){
-          console.log(element)
+         
          
         this.favList.splice(index,1)
        
@@ -49,6 +62,12 @@ export default {
         
 
       },
+      removeLocation(index){
+          this.favList1.splice(index,1)
+       
+        this.$store.commit("updatefavList1",this.favList1)
+
+      }
     }
 
 
@@ -68,9 +87,8 @@ export default {
     padding: 20px;
     box-sizing: border-box;
     .el-empty{
-         position: absolute;
-         bottom: 8%;
-         left: calc(50% - 170px)
+       
+         margin-left: calc(20% - 160px)
          
     }
     .result{
@@ -78,13 +96,36 @@ export default {
         font-size:18px;
         padding-left:20px;
         border-left: 4px solid #a1c4fd;
+        margin-top:10px;
     }
+    .resultbody1{
+        display: flex;
+        flex-wrap: wrap;
+        border-top: 1px  solid #a1c4fd;
+          margin-top:10px;
+          margin-bottom: 15px;
+         .el-tag{
+             margin-top:10px;
+             background-image: linear-gradient(120deg, #2464cb 0%, #7ad5ff 100%);
+             color: white;
+             border:1px  solid #a1c4fd;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.2);
+            margin-right: 15px;
+         }}
+
     .resultbody{
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
-         border-top: 1px  solid #a1c4fd;
-         margin-top:15px;
+        border-top: 1px  solid #a1c4fd;
+         margin-top:10px;
+         .el-tag{
+             margin-top:10px;
+             background-image: linear-gradient(120deg, #2464cb 0%, #7ad5ff 100%);
+             color: white;
+             border:1px  solid #a1c4fd;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.2);
+         }
 
         & > div{
             width:49%;
