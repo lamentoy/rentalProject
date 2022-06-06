@@ -90,6 +90,7 @@ export default {
         const marker=new window.google.maps.Marker({
             position: center,
             map: map,
+            title: this.mapTitle
         });
         const infoWindow = new window.google.maps.InfoWindow();
         marker.addListener("click", () => {
