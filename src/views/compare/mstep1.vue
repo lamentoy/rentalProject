@@ -43,7 +43,13 @@ export default {
 
     LocationSearch.addListener("place_changed", ()=>{
       let googleLocation=LocationSearch.getPlace()
-      this.googleLocation={'fullAddress':googleLocation.formatted_address,'shortName':googleLocation.name,"viewport":googleLocation.geometry.viewport,"id":googleLocation.place_id}
+      if(googleLocation.photos){
+          this.url=googleLocation.photos[0].getUrl()
+      }
+      else{
+          this.url=require('../../assets/city.jpeg')
+      }
+      this.googleLocation={'fullAddress':googleLocation.formatted_address,'shortName':googleLocation.name,"viewport":googleLocation.geometry,"id":googleLocation.place_id,"url":this.url}
     })
   },
   data(){
@@ -53,6 +59,7 @@ export default {
       searchLocations:[],
     
       googleLocation:"",
+      url:"",
 
     }
   },

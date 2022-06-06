@@ -40,7 +40,7 @@
       
       <div><i class="el-icon-info"/>This rating was calculated by an algorithm involving the essential facilities only. To see others' review please click the button below.</div>
      
-     <el-button  @click="jumpToReview({urls:require('../../assets/city.jpeg'),title:element[0]})">Review Page</el-button>
+     <el-button  @click="jumpToReview({urls:element[8],title:element[0]})">Review Page</el-button>
      </div>
       
      </div>
@@ -100,20 +100,22 @@ export default {
       searchNearbyLocations(){
   
         for(let i =0;i<this.searchLocations.length;i++){
-             if( this.searchLocations[i].viewport.Ta){
-              var lat = this.searchLocations[i].viewport.yb.h
-              var lng= this.searchLocations[i].viewport.Ta.h
-            }
-            else if(this.searchLocations[i].viewport.Ab){
-                lat = this.searchLocations[i].viewport.Ab.h
-                lng= this.searchLocations[i].viewport.Ua.h
-            }else{
-                 lat = this.searchLocations[i].viewport.south
-               lng= this.searchLocations[i].viewport.west
-            }
+            var lat=this.searchLocations[i].viewport.location.lat()
+            var lng=this.searchLocations[i].viewport.location.lng()
+            //  if( this.searchLocations[i].viewport.Ta){
+            //   var lat = this.searchLocations[i].viewport.yb.h
+            //   var lng= this.searchLocations[i].viewport.Ta.h
+            // }
+            // else if(this.searchLocations[i].viewport.Ab){
+            //     lat = this.searchLocations[i].viewport.Ab.h
+            //     lng= this.searchLocations[i].viewport.Ua.h
+            // }else{
+            //      lat = this.searchLocations[i].viewport.south
+            //    lng= this.searchLocations[i].viewport.west
+            // }
               let added=this.checkIfAdded(this.searchLocations[i].shortName)
               this.fav.push(added)
-              this.results.push([this.searchLocations[i].shortName,[],added,[],[],0,lat,lng])
+              this.results.push([this.searchLocations[i].shortName,[],added,[],[],0,lat,lng,this.searchLocations[i].url])
               this.distanceMatrix(this.searchLocations[i].id,i)
               for(let j =0;j<this.types.length;j++){
               const URL=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&type=${this.types[j]}&radius=250&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;

@@ -4,7 +4,7 @@
       <div class="searchBack">
       <div class="searchBox">
       <el-input id="autoComplete" prefix-icon="el-icon-position" v-model="inputText" placeholder="Enter the places you want to check comment about"/>
-      <img @click="jumpToReview1({urls:require('../assets/city.jpeg'),title:googleLocation.shortName})" src="../assets/search.png"/>
+      <img @click="jumpToReview1({urls:url,title:googleLocation.shortName})" src="../assets/search.png"/>
       </div>
       </div>
        <div class="areas">
@@ -52,6 +52,13 @@ export default {
 
     LocationSearch.addListener("place_changed", ()=>{
       let googleLocation=LocationSearch.getPlace()
+      console.log(googleLocation)
+      if(googleLocation.photos){
+          this.url=googleLocation.photos[0].getUrl()
+      }
+      else{
+          this.url=require('../assets/city.jpeg')
+      }
  
       this.googleLocation={'fullAddress':googleLocation.formatted_address,'shortName':googleLocation.name,"viewport":googleLocation.geometry.viewport,"id":googleLocation.place_id}
     })
@@ -64,6 +71,7 @@ export default {
             googleLocation:"",
             cities:cities,
             value:"Melbourne",
+            url:"",
             locations:[{'urls':require('../assets/qv.jpeg'),"title":'QV'},{'urls':require('../assets/883.jpeg'),"title":'883 collins st'},{'urls':require('../assets/southern.jpeg'),"title":'565 Flinders Street'}, {'urls':require('../assets/light.jpeg'),"title":'light house'},{'urls':require('../assets/atira.png'),"title":'Scape Peel St Student Accommodation'}]
 
         }
