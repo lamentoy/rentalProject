@@ -49,6 +49,7 @@
 
 <script>
 import axios from "axios"
+
 export default {
     name:"resultPage",
     props:["searchLocations","searchLocations2","LocationTypes"],
@@ -60,7 +61,7 @@ export default {
         // this.searchLocations=this.$route.params.searchLocations
         // this.searchLocations2=this.$route.params.searchLocations2
         // this.LocationTypes=this.$route.params.LocationTypes
-        // this.favList = this.$store.state.favList
+         this.favList = this.$store.state.favList
         // // this.initMap()
         // if(this.searchLocations){
         // this.searchNearbyLocations()
@@ -163,6 +164,7 @@ export default {
 
       },
       addtoFavorite(element,index){
+          console.log(element)
           if(this.favList && this.favList.length>0){
               this.favList.push(element)
           }else{
