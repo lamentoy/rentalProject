@@ -62,20 +62,37 @@ export default {
         }
     },
     methods:{
-        removeFromFavorite(element,index){
-         
-         
-        this.favList.splice(index,1)
+                removeFromFavorite(index){
+        this.$confirm("Are you sure to remove it from the list?", "Hint",{
+            cancelButtonText:"cancel",
+            confirmButtonText:"confirm",
+            type:"warning"
+        }).then(()=>{ this.favList.splice(index,1)
        
         this.$store.commit("updatefavList",this.favList)
+         this.$message.success('Removed successfully!')}).catch(()=> {
+    
+       })
+        // this.favList.splice(index,1)
+       
+        // this.$store.commit("updatefavList",this.favList)
+        
         
 
       },
-      removeLocation(index){
-          this.favList1.splice(index,1)
+       removeLocation(index){
+           this.$confirm("Are you sure to remove it from the list?", "Hint",{
+            cancelButtonText:"cancel",
+            confirmButtonText:"confirm",
+            type:"warning"
+        }).then(()=>{
+            this.favList1.splice(index,1)
        
         this.$store.commit("updatefavList1",this.favList1)
-
+        this.$message.success('Removed successfully!')
+        }).catch(()=> {
+    
+       })
       },
       initMap(element,index1,index2) {
         this.mapShown=true
