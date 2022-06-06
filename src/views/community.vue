@@ -1,13 +1,14 @@
 <template>
   <div class="community" :class="{loadings: loading===true}">
+      <div class="Title1">Check the community page by searching</div>
       <div class="searchBack">
       <div class="searchBox">
-      <el-input id="autoComplete" prefix-icon="el-icon-position" v-model="inputText" placeholder="Enter the location you want to search about"/>
-      <img @click="jumpToReview({urls:require('../assets/city.jpeg'),title:googleLocation.shortName})" src="../assets/search.png"/>
+      <el-input id="autoComplete" prefix-icon="el-icon-position" v-model="inputText" placeholder="Enter the places you want to check comment about"/>
+      <img style="cursor:pointer" @click="jumpToReview1({urls:require('../assets/city.jpeg'),title:googleLocation.shortName})" src="../assets/search.png"/>
       </div>
       </div>
       <div class="areas">
-       <div class="Title">Top 5 Favourites </div>
+       <div class="Title">Check out top 5 favourite neighbourhoods in different cities </div>
        <div>
            Choose city:
        <el-select v-model="value" placeholder="Select" filterable>
@@ -102,15 +103,32 @@ export default {
     },
     methods:{
         jumpToReview(item){
+           
             this.$router.push(
                 {
                     name:'review',
                     params:{"src":item.urls,"title":item.title}
                 }
             )
+    
+        },
+
+    
+    jumpToReview1(item){
+            if(this.googleLocation.shortName){
+            this.$router.push(
+                {
+                    name:'review',
+                    params:{"src":item.urls,"title":item.title}
+                }
+            )
+        }else{
+            this.$message.error('Please enter a valid location')
+        }
         }
 
     }
+
 
 }
 </script>
@@ -165,9 +183,26 @@ export default {
     .Title{
         margin-left:20px;
        padding-left:20px;
-       margin-right:50%;
-        width:160px;
+       margin-right:calc(100% - 500px - 400px);
+        width:500px;
         margin-bottom:40px;
+        font-size:18px;
+        color:rgb(3, 3, 155);
+        border-left: 4px solid #a1c4fd;
+        span{
+            color:rgb(3, 3, 155);
+            font-weight: bold;
+            font-size: 20px;
+            margin-right:10px;
+        }
+
+    }
+    .Title1{
+        margin-left:20px;
+       padding-left:20px;
+       margin-top:20px;
+       
+        margin-bottom:10px;
         font-size:18px;
         color:rgb(3, 3, 155);
         border-left: 4px solid #a1c4fd;
