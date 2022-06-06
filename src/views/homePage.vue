@@ -19,7 +19,7 @@
       <img src="../assets/logo2.png"/> -->
   <div class="middlepart">
    <div class="Description"><span>Start to find the most appropriate rental property for you today.</span>
-   <div>Rental rise provide a platform for you to compare different neighbourhoods and check other people's favourite neighbourhoods to get an idea of where you want to live.</div>
+   <div>Rental rise provides a platform for you to compare different neighbourhoods and check other people's favourite neighbourhoods to get an idea of where you want to live.</div>
    <el-button @click="logActive=2">{{logActive==2?'Start Journey':'Get Started'}}</el-button>
    </div>
    
