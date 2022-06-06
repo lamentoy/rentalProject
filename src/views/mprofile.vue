@@ -40,6 +40,8 @@ export default {
         font-size:18px;
         padding-left:20px;
         border-left: 4px solid #a1c4fd;
+         color:#6999e7;
+        font-weight: bold;
     }
     .content{
         margin:auto;

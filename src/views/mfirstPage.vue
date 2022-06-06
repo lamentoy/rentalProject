@@ -1,10 +1,13 @@
 <template>
   <div class="first_Page">
+    <div class="title">Compare different neighbourhoods in three steps.</div>
     <el-steps :active="activeStep" :align-center="true">
     <el-step title="Step 1" description="Enter the neghbourhoods to compare."></el-step>
     <el-step title="Step 2" description="Enter the places or keywords of facility to calculate(Optional)."></el-step>
     <el-step title="Step 3" description="Seach and get results."></el-step>
   </el-steps>
+  
+ 
   <step1 class="step1" v-show="activeStep==1" @getLocations="getLocations"/>
    <step2 class="step1" v-show="activeStep==2" @getLocations2="getLocations2" @getKeyWord="getKeyWord"/>
    <result class="step1" v-if="activeStep==3" :searchLocations2="searchLocations2" :searchLocations="searchLocations" :LocationTypes="LocationTypes"/>
@@ -110,10 +113,19 @@ export default {
     width:100vw;
     height:60vh;
     overflow: scroll;
+     .title{
+      width:100vw;
+      margin:auto;
+       margin-top:2vh;
+       font-size: 16px;
+       color: #6999e7;
+       text-align: center;
+       font-weight: bold;
+    }
     .el-steps{
       width:100vw;
       margin-top:4vh;
-      margin-bottom:4vh;
+      margin-bottom:2vh;
      
      
       // /deep/ .el-step__head{

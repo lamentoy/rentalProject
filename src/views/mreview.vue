@@ -393,7 +393,8 @@ export default {
             text-align: center;
             display: flex;
             align-items: center;
-           
+             color:#6999e7;
+        font-weight: bold;
             height:30px;
             width:250px;
             padding: 0;

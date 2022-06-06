@@ -205,6 +205,8 @@ export default {
         padding-left:20px;
         border-left: 4px solid #a1c4fd;
         margin-top:10px;
+         color:#6999e7;
+        font-weight: bold;
     }
     .resultbody1{
         display: flex;

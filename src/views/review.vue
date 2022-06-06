@@ -435,6 +435,8 @@ export default {
             position:absolute;
             display: flex;
             align-items: center;
+             color:#6999e7;
+             font-weight: bold;
             top:-30px;
             height:30px;
             width:250px;

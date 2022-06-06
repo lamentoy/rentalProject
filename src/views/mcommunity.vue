@@ -173,7 +173,8 @@ export default {
        padding-left:20px;
         margin-bottom:10px;
         font-size:18px;
-        color:rgb(3, 3, 155);
+        color:#6999e7;
+        font-weight: bold;
         border-left: 4px solid #a1c4fd;
         span{
             color:rgb(3, 3, 155);
@@ -188,7 +189,8 @@ export default {
          margin-top:20px;
        padding-left:20px;
         font-size:18px;
-        color:rgb(3, 3, 155);
+        color:#6999e7;
+        font-weight: bold;
         border-left: 4px solid #a1c4fd;
         span{
             color:rgb(3, 3, 155);

@@ -187,8 +187,9 @@ export default {
         width:500px;
         margin-bottom:40px;
         font-size:18px;
-        color:rgb(3, 3, 155);
+        color:#6999e7;
         border-left: 4px solid #a1c4fd;
+        font-weight: bold;
         span{
             color:rgb(3, 3, 155);
             font-weight: bold;
@@ -201,10 +202,10 @@ export default {
         margin-left:20px;
        padding-left:20px;
        margin-top:20px;
-       
+       font-weight: bold;
         margin-bottom:10px;
         font-size:18px;
-        color:rgb(3, 3, 155);
+        color:#6999e7;
         border-left: 4px solid #a1c4fd;
         span{
             color:rgb(3, 3, 155);

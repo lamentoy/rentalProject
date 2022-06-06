@@ -159,7 +159,7 @@ export default {
     
     z-index:1;
     margin-bottom:10px;
-    padding: 2vw;
+    padding: 4vw;
     margin-top:1vh;  
     width:96vw;
     height: 60vh;
@@ -197,6 +197,8 @@ export default {
        
         font-size:18px;
         padding-left:20px;
+        color:#6999e7;
+        font-weight: bold;
         border-left: 4px solid #a1c4fd;
     }
     .resultbody1{
