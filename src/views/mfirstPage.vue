@@ -108,11 +108,10 @@ export default {
     background: white;
     position: fixed;
     width:100vw;
-    height:70vh;
+    height:60vh;
     overflow: scroll;
     .el-steps{
       width:100vw;
-      margin:auto;
       margin-top:4vh;
       margin-bottom:4vh;
      

@@ -12,7 +12,7 @@
         </div>
       <div v-if="searchLocations2.length>0" >
         <div class="smallTitle">Distance and time taken to desired locations</div>
-        <div class='eachResult' v-for='(des) in element[3]' :key="element[0]+des[0]">
+        <div class='eachResult ' v-for='(des) in element[3]' :key="element[0]+des[0]">
             <div><i class="el-icon-location-information"/>{{des[0]}}:</div>
             <div class="mainContent">
             <div><i class="el-icon-guide" style="color:darkblue"/>Distance:{{des[1]}}</div>
@@ -22,10 +22,11 @@
      </div>
      <div v-if="LocationTypes.length>0">
          <div class="smallTitle">Number of facilities users would like to have</div>
-         <div class='eachResult'><div class="mainContent1" v-for='(item) in element[4]' :key="element[0]+item[0]+element[2]"><i class="el-icon-school" style="color:darkblue"/>{{item[0]}}:{{item[1].length}}</div>
+         <div class='eachResult typesLocations'><div class="mainContent1" v-for='(item, index) in element[4]' :key="element[0]+item[0]+element[2]"><i class="el-icon-school" style="color:darkblue"/>{{item[0]}}:{{item[1].length}}
+         <el-button v-if="item[1].length!=0" @click="initMap(element,4,index)" type="text" icon="el-icon-s-shop">show on map</el-button></div>
          </div>
      </div>
-     <div class="smallTitle">Nearby essential facilities</div>
+      <div class="smallTitle">Nearby essential facilities <el-button @click="initMap(element,1,0)" type="text" icon="el-icon-s-shop">show on map</el-button></div> 
      <div class='eachResult'>
          <div class="mainContent1" v-for='(item) in element[1]' :key="element[0]+item[0]+element[2]"><div><i class="el-icon-school" style="color:darkblue"/>{{item[0]}}:{{item[1].length}}</div></div>
      </div>
@@ -43,6 +44,10 @@
      </div>
       
      </div>
+      </div>
+     <div class="showMap" v-show="mapShown">
+      <div class="title"><div>{{mapType}} near {{mapTitle}}</div><i class="el-icon-close" @click="mapShown=false"></i></div>
+      <div id="map"></div>
       </div>
   </div>
 </template>
@@ -86,8 +91,9 @@ export default {
         results:[],
         favList:[],
         fav:[],
-        mapShown:true
-      
+        mapShown:false,
+        mapTitle:"",
+        mapType:""
     }
   },
   methods:{
@@ -107,10 +113,10 @@ export default {
             }
               let added=this.checkIfAdded(this.searchLocations[i].shortName)
               this.fav.push(added)
-              this.results.push([this.searchLocations[i].shortName,[],added,[],[]])
+              this.results.push([this.searchLocations[i].shortName,[],added,[],[],0,lat,lng])
               this.distanceMatrix(this.searchLocations[i].id,i)
               for(let j =0;j<this.types.length;j++){
-              const URL=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&type=${this.types[j]}&radius=500&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;
+              const URL=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&type=${this.types[j]}&radius=250&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;
         
             axios.get(URL).then(async response=>{
                   let  result= await response.data.results
@@ -124,7 +130,7 @@ export default {
                   console.log(error.message)
               })
               }
-              const URL1=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&keyword=tram_stop&radius=500&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;
+              const URL1=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&keyword=tram_stop&radius=250&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;
         
               axios.get(URL1).then(async response=>{
                   let result= await response.data.results
@@ -140,7 +146,7 @@ export default {
 
               if(this.LocationTypes.length>0){
                 for(let k =0;k<this.LocationTypes.length;k++){
-                const URL2=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&keyword=${this.LocationTypes[k]}&radius=500&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;
+                const URL2=`api/maps/api/place/nearbysearch/json?location=${lat},${lng}&keyword=${this.LocationTypes[k]}&radius=250&key=AIzaSyDYmXO6pRRuMXAAMe2dlaWaynac17ZZMUE`;
         
                  axios.get(URL2).then(async response=>{
                   let result= await response.data.results
@@ -289,21 +295,77 @@ export default {
           )
           
       },
-//     initMap() {
- 
-//   const uluru = { lat: -25.344, lng: 131.031 };
-  
-//   const map = new window.google.maps.Map(document.getElementById("map"), {
-//     zoom: 4,
-//     center: uluru,
-//   });
+       initMap(element,index1,index2) {
+        this.mapShown=true
+      
+        const center = { lat: element[6], lng: element[7] };
+        this.mapTitle=element[0]
+        const map = new window.google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: center,
+            scrollwheel: false,
+            clickableIcons:false,
+        });
+        // The marker, positioned at Uluru
+        const marker=new window.google.maps.Marker({
+            position: center,
+            map: map,
+        });
+        const infoWindow = new window.google.maps.InfoWindow();
+        marker.addListener("click", () => {
+      infoWindow.close();
+      infoWindow.setContent(element[0]);
+      infoWindow.open(marker.getMap(), marker);
+    });
+    if(index1==1){
+       const essential=element[1]
+       this.mapType="Essential facilities"
+       essential.forEach((places)=>{
+           const title = places[0]
+           const location=places[1]
+           
+           location.forEach((l1)=>{
+               const geo = l1.geometry.location
+               const marker1=new window.google.maps.Marker({
+                position: geo,
+                map: map,
+                title: `${title}`,
+                 });
+                 marker1.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(l1.name);
+                infoWindow.open(marker1.getMap(), marker1);
+                 });
+        
 
-//   const marker = new google.maps.Marker({
-//     position: uluru,
-//     map: map,
-//   });
+           })
 
-// }
+       })}
+       if(index1==4){
+           const essential=element[4][index2]
+           const title = essential[0]
+           this.mapType=title
+       essential[1].forEach((l1)=>{
+           
+               const geo = l1.geometry.location
+               const marker1=new window.google.maps.Marker({
+                position: geo,
+                map: map,
+                title: `${title}`,
+                 });
+                 marker1.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(l1.name);
+                infoWindow.open(marker1.getMap(), marker1);
+                 });
+        
+
+
+       })
+
+       }
+       
+        }
       
 
   
@@ -321,6 +383,31 @@ export default {
     margin-top:1vh;  
     width:85vw;
     overflow: scroll;
+    .showMap{
+        position: fixed;
+        background: white;
+        box-shadow: 0 0 2px #7d9cce;
+        z-index: 2;
+        left:5vw;
+        top:18vh;
+        overflow: scroll;
+        width:90vw;
+        .title{
+            display: flex;
+            align-items: center;
+            padding:20px;
+             justify-content: space-between;
+             font:16px;
+             color: #174287;
+        }
+        i{
+            cursor: pointer;
+        }
+     
+    #map{
+        height: 60vh;
+        width:90vw;
+    }}
     .resultbody{
         display: flex;
         justify-content: space-between;

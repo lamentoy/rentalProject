@@ -28,12 +28,18 @@
                 <div class="favIcon" @click="removeFromFavorite(index)"><img src="../assets/removeFav.png" /></div>
          </div>
           </div>
+        <el-button style="margin-left:20px;margin-top:1vh" @click="initMap(element,1,0)" type="text" icon="el-icon-s-shop">show on map</el-button>
+    
       <div class='eachResult'>
           
      <div class="mainContent1" v-for='(item) in element[1]' :key="element[0]+item[0]+element[2]"><i class="el-icon-school" style="color:darkblue"/>{{item[0]}}:{{item[1].length}}</div>
       
       </div>
       </div>
+      </div>
+       <div class="showMap" v-show="mapShown">
+      <div class="title"><div>{{mapType}} near {{mapTitle}}</div><i class="el-icon-close" @click="mapShown=false"></i></div>
+      <div id="map"></div>
       </div>
 
   </div>
@@ -49,7 +55,10 @@ export default {
     data(){
         return{
             favList1:[],
-            favList:[]
+            favList:[],
+            mapShown:false,
+             mapTitle:"",
+             mapType:""
         }
     },
     methods:{
@@ -65,7 +74,78 @@ export default {
        
         this.$store.commit("updatefavList1",this.favList1)
 
-    }
+    },
+    initMap(element,index1,index2) {
+        this.mapShown=true
+      
+        const center = { lat: element[6], lng: element[7] };
+        this.mapTitle=element[0]
+        const map = new window.google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: center,
+            scrollwheel: false,
+            clickableIcons:false,
+        });
+        // The marker, positioned at Uluru
+        const marker=new window.google.maps.Marker({
+            position: center,
+            map: map,
+        });
+        const infoWindow = new window.google.maps.InfoWindow();
+        marker.addListener("click", () => {
+      infoWindow.close();
+      infoWindow.setContent(element[0]);
+      infoWindow.open(marker.getMap(), marker);
+    });
+    if(index1==1){
+       const essential=element[1]
+       this.mapType="Essential facilities"
+       essential.forEach((places)=>{
+           const title = places[0]
+           const location=places[1]
+           
+           location.forEach((l1)=>{
+               const geo = l1.geometry.location
+               const marker1=new window.google.maps.Marker({
+                position: geo,
+                map: map,
+                title: `${title}`,
+                 });
+                 marker1.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(l1.name);
+                infoWindow.open(marker1.getMap(), marker1);
+                 });
+        
+
+           })
+
+       })}
+       if(index1==4){
+           const essential=element[4][index2]
+           const title = essential[0]
+           this.mapType=title
+       essential[1].forEach((l1)=>{
+           
+               const geo = l1.geometry.location
+               const marker1=new window.google.maps.Marker({
+                position: geo,
+                map: map,
+                title: `${title}`,
+                 });
+                 marker1.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(l1.name);
+                infoWindow.open(marker1.getMap(), marker1);
+                 });
+        
+
+
+       })
+
+       }
+       
+        }
     }
 
 
@@ -81,7 +161,33 @@ export default {
     padding: 2vw;
     margin-top:1vh;  
     width:96vw;
+    height: 60vh;
     overflow: scroll;
+    .showMap{
+        position: fixed;
+        background: white;
+        box-shadow: 0 0 2px #7d9cce;
+        z-index: 2;
+        left:5vw;
+        top:18vh;
+        overflow: scroll;
+        width:90vw;
+        .title{
+            display: flex;
+            align-items: center;
+            padding:20px;
+             justify-content: space-between;
+             font:16px;
+             color: #174287;
+        }
+        i{
+            cursor: pointer;
+        }
+     
+    #map{
+        height: 60vh;
+        width:90vw;
+    }}
     .el-empty{
          margin-left: calc(50vw - 160px)
          
@@ -180,8 +286,9 @@ export default {
 
                  }
                  .mainContent1{
-                     padding:20px;
+                     padding:10px;
                      float: left;
+                     margin-bottom: 10px;
                     div{
                         width: auto;}
 

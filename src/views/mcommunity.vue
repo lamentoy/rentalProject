@@ -117,7 +117,7 @@ export default {
     //margin:40px;
     background: white;
     position: fixed;
-    height: 72vh;
+    height: 60vh;
     width:100vw;
     overflow: scroll;
    // padding-bottom: 20px;

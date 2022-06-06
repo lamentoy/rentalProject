@@ -267,7 +267,7 @@ export default {
 <style lang="less" scoped>
 .communityReview {
     margin-top:2vh;
-    height: 72vh;
+    height: 60vh;
     width:100vw;
     background: white;
     position: fixed;
@@ -337,7 +337,6 @@ export default {
         }
     }
         .Comments{
-            height:520px;
             width:90vw;
             margin-left:5vw;
             border: 1px solid #a1c4fd;
