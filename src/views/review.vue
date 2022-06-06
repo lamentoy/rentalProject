@@ -62,6 +62,7 @@
           <el-avatar src="https://img.syt5.com/2021/0519/20210519083837846.jpg.420.420.jpg"></el-avatar>
           <span>Josh</span>
           </div>
+          <div class="timestampS">Published at: 20:18:05 06/05/2022</div>
           <div>The place is nice but a little bit noisy at night.</div>
           
           </div>
@@ -71,6 +72,7 @@
           <span>Kate</span>
           </div>
           <div>I lived near this place and I don't like it. Prepare moving to other house.</div>
+          <div class="timestampS">Published at: 06:14:43 12/05/2022</div>
           </div>
           <div class="comment">
               <div class="peoples">
@@ -78,6 +80,7 @@
           <span>Elisa</span>
           </div>
           <div>Easy to buy stuff's here!!!</div>
+          <div class="timestampS">Published at: 19:18:23 24/05/2022</div>
           </div>
           <div class="comment">
           <div class="peoples">
@@ -85,6 +88,7 @@
           <span>Lanbert</span>
           </div>
           <div>A lot of people here at night, feeling safe when i went home late.</div>
+          <div class="timestampS">Published at: 21:38:10 01/06/2022</div>
           </div>
           <div  v-if="comments.length>0">
           <div class="comment myself" v-for="(c,index) in comments" :key="index+c">
@@ -93,7 +97,8 @@
              <span>me</span>
           </div>
     
-          <div>{{c}}</div>
+          <div>{{c[0]}}</div>
+          <div class="timestampS">Published at: {{c[1]}} {{c[2]}}</div>
           </div>
           </div>
 
@@ -205,7 +210,7 @@ export default {
     methods:{
         submitComments(){
             if(this.comment!=""){
-            this.comments.push(""+this.comment)
+            this.comments.push([this.comment,new Date().toLocaleTimeString(),new Date().toLocaleDateString()])
             this.people+=1
             this.value1=((this.value4+this.value1*(this.people-1))/this.people).toFixed(1)
             this.value2=((this.value5+this.value2*(this.people-1))/this.people).toFixed(1)
@@ -360,12 +365,19 @@ export default {
             padding: 30px;
             box-sizing: border-box;
             .comment{
+                 position: relative;
                 display: flex;
                 align-items: center;
                 box-shadow: 0 0 8px #89b6ff;
                 background: #b6d2ff;
                 padding: 20px;
                 margin-bottom:30px;
+                .timestampS{
+                    position: absolute;
+                    bottom:6px;
+                    right:8px;
+                    font-size: 12px;
+                }
                
                 &.myself{
                     background: white;
